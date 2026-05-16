@@ -1,0 +1,526 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0f1a;
+    color: #eef2ff;
+    min-height: 100vh;
+    padding-bottom: 30px;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.main-header {
+    position: sticky;
+    top: 16px;
+    z-index: 100;
+    background: #0e1a26;
+    border-radius: 30px;
+    border: 1px solid #2a3a4a;
+    height: 60px;
+    margin: 16px 16px 0 16px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-btn {
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #eef2ff;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #5a9eff;
+    color: white;
+    border-color: #5a9eff;
+}
+
+.main-header h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    flex: 1;
+}
+
+.stats-btn {
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #eef2ff;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.stats-btn:hover {
+    background: #5a9eff;
+    color: white;
+    border-color: #5a9eff;
+}
+
+/* ============================================
+   CONTENU
+   ============================================ */
+.main-content {
+    padding: 20px 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+.settings-section {
+    background: #0e1a26;
+    border: 1px solid #2a3a4a;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.settings-section h4 {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #5a9eff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ============================================
+   AVATAR
+   ============================================ */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-section img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #5a9eff;
+}
+
+.btn-small {
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 30px;
+    padding: 8px 20px;
+    cursor: pointer;
+    color: #eef2ff;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.btn-small:hover {
+    background: #5a9eff;
+    color: white;
+    border-color: #5a9eff;
+}
+
+/* ============================================
+   FORMULAIRES
+   ============================================ */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #8a9aaa;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 14px;
+    color: #eef2ff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #5a9eff;
+}
+
+.form-group input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 0.7rem;
+    color: #8a9aaa;
+    margin-top: 5px;
+}
+
+/* ============================================
+   TOGGLE
+   ============================================ */
+.toggle-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-label {
+    font-weight: 600;
+    color: #eef2ff;
+    font-size: 0.9rem;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 30px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.toggle-switch input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #2a3a4a;
+    border-radius: 34px;
+    transition: background-color 0.3s;
+    z-index: 1;
+}
+
+.toggle-slider::before {
+    content: "";
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider {
+    background-color: #4ade80;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+/* ============================================
+   TYPE GROUP (message)
+   ============================================ */
+.type-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.type-btn {
+    flex: 1;
+    padding: 10px;
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 30px;
+    cursor: pointer;
+    color: #8a9aaa;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.type-btn.active {
+    background: #5a9eff;
+    border-color: #5a9eff;
+    color: white;
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+.btn-send {
+    width: 100%;
+    padding: 12px;
+    background: #4ade80;
+    border: none;
+    border-radius: 40px;
+    color: #1a2a3a;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-send:hover {
+    background: #22c55e;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #eef2ff;
+    font-weight: 500;
+    margin-right: 12px;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #5a9eff;
+    color: white;
+    border-color: #5a9eff;
+}
+
+.btn-danger {
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #ff4d4d;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-danger:hover {
+    background: #ff4d4d;
+    color: white;
+}
+
+.btn-primary {
+    background: #5a9eff;
+    border: none;
+    border-radius: 40px;
+    padding: 14px 24px;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #3a7ecc;
+}
+
+.save-all {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* ============================================
+   THEME GROUP
+   ============================================ */
+.theme-group {
+    display: flex;
+    gap: 12px;
+}
+
+.theme-btn {
+    flex: 1;
+    padding: 10px;
+    background: #1a2a3a;
+    border: 1px solid #2a3a4a;
+    border-radius: 30px;
+    cursor: pointer;
+    color: #eef2ff;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.theme-btn.active {
+    background: #5a9eff;
+    border-color: #5a9eff;
+    color: white;
+}
+
+/* ============================================
+   INFO NOTE
+   ============================================ */
+.info-note {
+    background: #1a2a3a;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.7rem;
+    color: #8a9aaa;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1a2a3a;
+    color: #eef2ff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid #2a3a4a;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 200;
+    white-space: nowrap;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { border-color: #4ade80; color: #4ade80; }
+.toast.error   { border-color: #ff4d4d; color: #ff4d4d; }
+
+/* ============================================
+   MODAL LOADING
+   ============================================ */
+.modal-loading {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+}
+
+.modal-card {
+    background: #0e1a26;
+    border-radius: 28px;
+    padding: 32px;
+    text-align: center;
+    border: 1px solid #2a3a4a;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #2a3a4a;
+    border-top-color: #5a9eff;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+    .main-header {
+        height: 50px;
+        margin: 12px 12px 0 12px;
+    }
+
+    .back-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    .stats-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .settings-section {
+        padding: 16px;
+    }
+
+    .type-group, .theme-group {
+        flex-wrap: wrap;
+    }
+
+    .btn-secondary, .btn-danger {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+}
+/* Validator box */
+.validator-box {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.validator-box.success {
+    background: #1a2a1a;
+    border-left: 4px solid #4ade80;
+    color: #4ade80;
+}
+
+.validator-box.error {
+    background: #2a1a1a;
+    border-left: 4px solid #ff4d4d;
+    color: #ff4d4d;
+}
+
+.validator-hint {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
