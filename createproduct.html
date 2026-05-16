@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MonMarché - Nouveau produit</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/createproduct.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+        <h3>Nouveau produit</h3>
+        <div class="placeholder-right"></div>
+    </header>
+
+    <main class="main-content">
+
+        <!-- Zone upload images -->
+        <div class="section-label">Photos <span class="optional">(max 5)</span></div>
+        <div class="images-row" id="imagesRow">
+            <label class="image-add-btn" id="imageAddBtn">
+                <i class="fas fa-camera"></i>
+                <input type="file" id="imageInput" accept="image/*" multiple style="display:none;">
+            </label>
+        </div>
+
+        <!-- Formulaire produit -->
+        <div class="form-container">
+
+            <!-- Nom -->
+            <div class="field-group">
+                <label class="field-label">Nom du produit <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-tag"></i>
+                    <input type="text" id="productName" placeholder="Ex: Robe en wax bleue">
+                </div>
+            </div>
+
+            <!-- Prix -->
+            <div class="field-group">
+                <label class="field-label">Prix (FCFA) <span class="required">*</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-coins"></i>
+                    <input type="number" id="productPrice" placeholder="Ex: 5000" min="0">
+                </div>
+            </div>
+
+            <!-- Option prix -->
+            <div class="field-group">
+                <label class="field-label">Option prix <span class="optional">(optionnel)</span></label>
+                <div class="input-wrap">
+                    <i class="fas fa-comment-dollar"></i>
+                    <input type="text" id="productPriceOption" placeholder="Ex: Prix négociable">
+                </div>
+            </div>
+
+            <!-- Catégorie -->
+            <div class="field-group">
+                <label class="field-label">Catégorie <span class="optional">(optionnel)</span></label>
+
+                <!-- Boutons catégories fixes -->
+                <div class="category-grid" id="categoryGrid">
+                    <button type="button" class="cat-btn" data-cat="Vêtements">
+                        <i class="fas fa-tshirt"></i> Vêtements
+                    </button>
+                    <button type="button" class="cat-btn" data-cat="Alimentation">
+                        <i class="fas fa-utensils"></i> Alimentation
+                    </button>
+                    <button type="button" class="cat-btn" data-cat="Électronique">
+                        <i class="fas fa-microchip"></i> Électronique
+                    </button>
+                    <button type="button" class="cat-btn" data-cat="Cosmétiques">
+                        <i class="fas fa-spray-can"></i> Cosmétiques
+                    </button>
+                    <button type="button" class="cat-btn" data-cat="Chaussures">
+                        <i class="fas fa-shoe-prints"></i> Chaussures
+                    </button>
+                    <button type="button" class="cat-btn" data-cat="Maison & Déco">
+                        <i class="fas fa-couch"></i> Maison & Déco
+                    </button>
+                </div>
+
+                <!-- Saisie libre -->
+                <div class="input-wrap custom-cat-wrap">
+                    <i class="fas fa-pen"></i>
+                    <input type="text" id="customCategory" placeholder="Ou saisir une catégorie...">
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="field-group">
+                <label class="field-label">Description <span class="optional">(optionnel)</span></label>
+                <div class="textarea-wrap">
+                    <i class="fas fa-align-left"></i>
+                    <textarea id="productDescription" rows="4" placeholder="Décrivez votre produit..."></textarea>
+                </div>
+            </div>
+
+            <!-- Actif par défaut -->
+            <div class="field-group toggle-group">
+                <label class="field-label">Activer le produit</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="productActive" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+        </div>
+
+        <!-- Bouton publier -->
+        <button class="btn-publish" id="publishBtn">
+            <i class="fas fa-check"></i> Publier le produit
+        </button>
+
+    </main>
+
+    <!-- Modal chargement -->
+    <div id="loadingModal" class="modal-loading" style="display:none;">
+        <div class="modal-card">
+            <div class="spinner"></div>
+            <p id="modalStatus">Publication...</p>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/createproduct.js"></script>
+</body>
+</html>

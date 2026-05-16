@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MonMarché - Authentification</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+<div class="page">
+    <!-- HEADER : rectangle 60px avec deux boutons -->
+    <div class="header">
+        <div class="tab-container">
+            <button class="tab-btn active" data-tab="login">Connexion</button>
+            <button class="tab-btn" data-tab="register">Inscription</button>
+        </div>
+    </div>
+
+    <!-- INFO AREA -->
+    <div id="infoArea" class="info-area info-info">
+        <div class="info-content">
+            <i class="fas fa-info-circle" id="infoIcon"></i>
+            <span id="infoMessage">Bienvenue. Connectez-vous ou créez un compte.</span>
+        </div>
+        <div id="infoProgress" class="info-progress" style="display: none;">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- FORMULAIRES -->
+    <div class="forms-container">
+        <!-- CONNEXION -->
+        <div id="loginForm" class="form-card active">
+            <h2>Connexion</h2>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="loginEmail" placeholder="Email" autocomplete="email">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="loginPassword" placeholder="Mot de passe" autocomplete="current-password">
+                <button type="button" class="toggle-password" data-target="loginPassword">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+            </div>
+            <div class="form-footer">
+                <a href="#" id="forgotPasswordLink" class="forgot-link">Mot de passe oublié ?</a>
+            </div>
+            <button id="doLoginBtn" class="btn-primary">Se connecter</button>
+        </div>
+
+        <!-- INSCRIPTION (3 étapes : Email, Mot de passe, Pseudo) -->
+        <div id="registerForm" class="form-card">
+            <!-- Étape 1 : Email -->
+            <div id="step1" class="step active">
+                <h2>Email</h2>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="regEmail" placeholder="Votre email" autocomplete="email">
+                </div>
+            </div>
+
+            <!-- Étape 2 : Mot de passe -->
+            <div id="step2" class="step">
+                <h2>Mot de passe</h2>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="regPassword" placeholder="Mot de passe">
+                    <button type="button" class="toggle-password" data-target="regPassword">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-check-circle"></i>
+                    <input type="password" id="regConfirmPassword" placeholder="Confirmer">
+                    <button type="button" class="toggle-password" data-target="regConfirmPassword">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+                <div id="passwordStrength" class="strength-box"></div>
+            </div>
+
+            <!-- Étape 3 : Pseudo -->
+            <div id="step3" class="step">
+                <h2>Pseudo</h2>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="regUsername" placeholder="Nom d'utilisateur">
+                </div>
+            </div>
+
+            <div class="step-nav">
+                <button id="prevBtn" class="step-btn prev">Précédent</button>
+                <button id="nextBtn" class="step-btn next">Suivant</button>
+            </div>
+        </div>
+
+        <!-- MOT DE PASSE OUBLIÉ -->
+        <div id="forgotForm" class="form-card">
+            <h2>Réinitialisation</h2>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="forgotEmail" placeholder="Votre email">
+            </div>
+            <button id="resetPasswordBtn" class="btn-primary">Envoyer</button>
+            <a href="#" id="backToLoginLink" class="back-link">Retour</a>
+        </div>
+    </div>
+</div>
+
+<!-- WIZARD MARCHÉ (6 étapes - après connexion) -->
+<div id="marketWizard" class="wizard-overlay" style="display: none;">
+    <div class="wizard-container">
+        <div class="wizard-header">
+            <h2>Complétez les informations de votre marché</h2>
+            <div id="wizardProgress" class="wizard-progress">
+                <div class="wizard-progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Étape 1 : Informations marché -->
+        <div id="wizardStep1" class="wizard-step active">
+            <h3>Informations du marché</h3>
+            <div class="input-group">
+                <i class="fas fa-store"></i>
+                <input type="text" id="wizardMarketName" placeholder="Nom du marché">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="wizardOwnerName" placeholder="Nom du propriétaire">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="wizardPhone" placeholder="Numéro de téléphone">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="wizardPublicEmail" placeholder="Email public de communication">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="wizardCity" placeholder="Ville / Localisation">
+            </div>
+        </div>
+
+        <!-- Étape 2 : Description (min 100 mots) -->
+        <div id="wizardStep2" class="wizard-step">
+            <h3>Description du marché</h3>
+            <div class="input-group textarea-group">
+                <i class="fas fa-align-left"></i>
+                <textarea id="wizardDescription" rows="5" placeholder="Décrivez votre marché (minimum 100 mots)"></textarea>
+            </div>
+            <div id="wizardWordCount" class="word-counter">0 / 100 mots</div>
+        </div>
+
+        <!-- Étape 3 : WhatsApp -->
+        <div id="wizardStep3" class="wizard-step">
+            <h3>Numéro WhatsApp</h3>
+            <div class="input-group">
+                <i class="fab fa-whatsapp"></i>
+                <input type="tel" id="wizardWhatsapp" placeholder="Numéro WhatsApp (bouton commander)">
+            </div>
+            <div class="info-note">Ce numéro apparaîtra sur chaque produit pour que les acheteurs vous contactent.</div>
+        </div>
+
+        <!-- Étape 4 : Récapitulatif -->
+        <div id="wizardStep4" class="wizard-step">
+            <h3>Récapitulatif</h3>
+            <div class="recap-box">
+                <p><strong>Nom du marché :</strong> <span id="recapMarketName"></span></p>
+                <p><strong>Propriétaire :</strong> <span id="recapOwnerName"></span></p>
+                <p><strong>Téléphone :</strong> <span id="recapPhone"></span></p>
+                <p><strong>Email public :</strong> <span id="recapPublicEmail"></span></p>
+                <p><strong>Ville :</strong> <span id="recapCity"></span></p>
+                <p><strong>WhatsApp commander :</strong> <span id="recapWhatsapp"></span></p>
+                <p><strong>Description :</strong> <span id="recapDescriptionPreview"></span></p>
+            </div>
+            <button id="confirmMarketBtn" class="btn-primary">Confirmer et accéder au marché</button>
+        </div>
+
+        <div class="wizard-nav">
+            <button id="wizardPrevBtn" class="step-btn prev">Précédent</button>
+            <button id="wizardNextBtn" class="step-btn next">Suivant</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE CHARGEMENT -->
+<div id="loadingModal" class="modal-loading" style="display: none;">
+    <div class="modal-card">
+        <div class="spinner"></div>
+        <p id="modalStatus">Chargement...</p>
+    </div>
+</div>
+
+<!-- SUPABASE SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/auth.js"></script>
+</body>
+</html>

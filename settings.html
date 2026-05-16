@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MonMarché - Paramètres</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+        <h3>Paramètres</h3>
+        <a href="stats.html" class="stats-btn">
+            <i class="fas fa-chart-bar"></i>
+        </a>
+    </header>
+
+    <main class="main-content">
+
+        <!-- ============================================ -->
+        <!-- SECTION : PHOTO DE PROFIL + WHATSAPP -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-user-circle"></i> Photo de profil</h4>
+            <div class="avatar-section">
+                <img id="adminAvatar" src="https://placehold.co/100x100?text=Admin" alt="Avatar">
+                <button id="changeAvatarBtn" class="btn-small">Changer la photo</button>
+                <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+            </div>
+            
+            <!-- Lien WhatsApp (modifiable) -->
+            <div class="form-group" style="margin-top: 20px;">
+                <label><i class="fab fa-whatsapp"></i> WhatsApp (bouton commander)</label>
+                <input type="tel" id="whatsappLink" placeholder="Ex: 0503588336 ou +2250503588336">
+                <div class="input-hint">Format officel : +225 05 03 58 83 36</div>
+            </div>
+            
+            <!-- Correcteur / Valideur en direct avec lien -->
+            <div id="whatsappValidator" class="validator-box">
+                <i class="fas fa-spinner fa-pulse"></i> Vérification...
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : PROFIL ADMIN -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-id-card"></i> Profil admin</h4>
+            <div class="form-group">
+                <label>Nom du propriétaire</label>
+                <input type="text" id="settingsOwnerName" placeholder="Votre nom">
+            </div>
+            <div class="form-group">
+                <label>Email du compte</label>
+                <input type="email" id="settingsAccountEmail" disabled>
+            </div>
+            <div class="form-group">
+                <label>Téléphone</label>
+                <input type="tel" id="settingsPhone" placeholder="Votre numéro">
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : INFORMATIONS DU MARCHÉ -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-store"></i> Informations du marché</h4>
+            <div class="form-group">
+                <label>Nom du marché</label>
+                <input type="text" id="settingsMarketName" placeholder="Nom de votre marché">
+            </div>
+            <div class="form-group">
+                <label>Email public</label>
+                <input type="email" id="settingsPublicEmail" placeholder="contact@monmarche.com">
+            </div>
+            <div class="form-group">
+                <label>Ville / Localisation</label>
+                <input type="text" id="settingsCity" placeholder="Votre ville">
+            </div>
+            <div class="form-group">
+                <label>Description du marché</label>
+                <textarea id="settingsDescription" rows="3" placeholder="Décrivez votre marché..."></textarea>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : ÉTAT DU MARCHÉ -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-power-off"></i> État du marché</h4>
+            <div class="toggle-group">
+                <label class="toggle-label">Marché actif</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="marketActiveToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <p class="info-note">Désactivé → votre marché n'apparaîtra pas côté acheteurs.</p>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : MESSAGE AUX ACHETEURS -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-comment-dots"></i> Message aux acheteurs</h4>
+            <div class="form-group">
+                <label>Écrire un message</label>
+                <textarea id="announcementMessage" rows="2" maxlength="200" placeholder="Ex: Livraison gratuite ce weekend !"></textarea>
+                <div class="char-counter"><span id="charCount">0</span>/200 caractères</div>
+            </div>
+            <div class="form-group">
+                <label>Type de message</label>
+                <div class="type-group">
+                    <button data-type="info" class="type-btn active">Info 💙</button>
+                    <button data-type="success" class="type-btn">Succès 💚</button>
+                    <button data-type="warning" class="type-btn">Avertissement 🧡</button>
+                </div>
+            </div>
+            <button id="sendMessageBtn" class="btn-send">
+                <i class="fas fa-paper-plane"></i> Envoyer le message
+            </button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : APPARENCE -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-palette"></i> Apparence non fonctionelle actu</h4>
+            <div class="theme-group">
+                <button id="themeLight" class="theme-btn">🌞 Mode clair</button>
+                <button id="themeDark" class="theme-btn active">🌙 Mode sombre</button>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SECTION : COMPTE -->
+        <!-- ============================================ -->
+        <div class="settings-section">
+            <h4><i class="fas fa-lock"></i> Compte</h4>
+            <button id="changePasswordBtn" class="btn-secondary">Changer le mot de passe</button>
+            <button id="logoutBtn" class="btn-danger">Se déconnecter</button>
+        </div>
+
+        <!-- Bouton sauvegarde globale -->
+        <button id="saveAllSettingsBtn" class="btn-primary save-all">
+            <i class="fas fa-save"></i> Enregistrer toutes les modifications
+        </button>
+
+    </main>
+
+    <!-- Modale chargement -->
+    <div id="loadingModal" class="modal-loading" style="display:none;">
+        <div class="modal-card">
+            <div class="spinner"></div>
+            <p id="modalStatus">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

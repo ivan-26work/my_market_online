@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MonMarché - Mes produits</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Rechercher un produit, prix...">
+        </div>
+        <a href="settings.html" class="icon-btn">
+            <i class="fas fa-cog"></i>
+        </a>
+    </header>
+
+    <!-- Filtres catégories (masqué si aucune catégorie) -->
+    <div class="filters-container" id="filtersContainer" style="display:none;">
+        <div class="filters-scroll" id="filtersScroll"></div>
+    </div>
+
+    <main class="main-content">
+        <div id="productsGrid" class="products-grid"></div>
+    </main>
+
+    <footer class="main-footer">
+        <a href="createproduct.html" class="fab-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+    </footer>
+
+    <div id="loadingModal" class="modal-loading" style="display: none;">
+        <div class="modal-card">
+            <div class="spinner"></div>
+            <p id="modalStatus">Chargement...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>

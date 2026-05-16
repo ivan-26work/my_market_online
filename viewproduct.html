@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>MonMarché - Détail produit</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/viewproduct.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="main-header">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Retour
+        </a>
+        <h3 id="productName">Produit</h3>
+        <div class="placeholder-right"></div>
+    </header>
+
+    <!-- Contenu -->
+    <main class="main-content">
+        <!-- Cadre image avec navigation -->
+        <div class="image-container">
+            <img id="productImage" src="" alt="Image produit" style="display:none;">
+            <div id="imagePlaceholder" class="image-placeholder">
+                <i class="fas fa-image"></i>
+            </div>
+            <button class="image-nav prev" id="prevBtn" style="display:none;"><i class="fas fa-chevron-left"></i></button>
+            <button class="image-nav next" id="nextBtn" style="display:none;"><i class="fas fa-chevron-right"></i></button>
+            <div class="image-counter" id="imageCounter" style="display:none;"></div>
+        </div>
+
+        <!-- Infos produit -->
+        <div class="product-info-container">
+
+            <!-- Toggle activer/désactiver -->
+            <div class="info-field toggle-field">
+                <label>Produit actif</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="activeToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Prix -->
+            <div class="info-field">
+                <label>Prix</label>
+                <div class="info-value-container">
+                    <span class="info-value" id="priceValue"></span>
+                    <input type="number" id="priceEdit" class="edit-input" style="display:none;">
+                </div>
+            </div>
+
+            <!-- Option prix -->
+            <div class="info-field">
+                <label>Option prix</label>
+                <div class="info-value-container">
+                    <span class="info-value" id="priceOptionValue"></span>
+                    <input type="text" id="priceOptionEdit" class="edit-input" style="display:none;" placeholder="Ex: prix négociable">
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="info-field description-field">
+                <label>Description</label>
+                <div class="info-value-container">
+                    <span class="info-value" id="descValue"></span>
+                    <textarea id="descEdit" class="edit-input" rows="4" style="display:none;"></textarea>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer fixe avec actions -->
+    <footer class="action-footer">
+        <button class="action-btn feature" id="featureBtn"><i class="fas fa-star"></i> À la une</button>
+        <button class="action-btn delete" id="deleteBtn"><i class="fas fa-trash"></i> Supprimer</button>
+        <button class="action-btn edit" id="editBtn"><i class="fas fa-edit"></i> Éditer</button>
+        <button class="action-btn update" id="updateBtn" style="display:none;"><i class="fas fa-save"></i> Mettre à jour</button>
+        <button class="action-btn add-info" id="addInfoBtn"><i class="fas fa-plus"></i> Infos</button>
+    </footer>
+
+    <!-- Modale chargement -->
+    <div id="loadingModal" class="modal-loading" style="display:none;">
+        <div class="modal-card">
+            <div class="spinner"></div>
+            <p id="modalStatus">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/viewproduct.js"></script>
+</body>
+</html>
