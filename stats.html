@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>MonMarché - Statistiques</title>
+    <title>MonMarché - Statistiques avancées</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -31,7 +31,7 @@
             border: 1px solid #2a3a4a;
             height: 60px;
             margin: 16px 16px 0 16px;
-            padding: 0 16px;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -66,38 +66,36 @@
             flex: 1;
         }
 
-        .status-badge {
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .refresh-btn {
             background: #1a2a3a;
             border: 1px solid #2a3a4a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #eef2ff;
+            transition: all 0.2s;
         }
 
-        .status-badge.active {
-            background: #1a2a1a;
-            border-color: #4ade80;
-            color: #4ade80;
-        }
-
-        .status-badge.inactive {
-            background: #2a1a1a;
-            border-color: #ff4d4d;
-            color: #ff4d4d;
+        .refresh-btn:hover {
+            background: #5a9eff;
+            color: white;
         }
 
         /* Contenu */
         .main-content {
             padding: 20px 16px;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Grille stats */
+        /* Stats rapides */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -108,6 +106,12 @@
             border-radius: 20px;
             padding: 16px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #5a9eff;
+            transform: translateY(-2px);
         }
 
         .stat-card i {
@@ -128,7 +132,16 @@
             margin-top: 4px;
         }
 
-        /* Section commune */
+        .stat-trend {
+            font-size: 0.7rem;
+            margin-top: 6px;
+        }
+
+        .trend-up { color: #4ade80; }
+        .trend-down { color: #ff4d4d; }
+        .trend-neutral { color: #ffaa44; }
+
+        /* Sections */
         .section {
             background: #0e1a26;
             border: 1px solid #2a3a4a;
@@ -147,7 +160,58 @@
             gap: 10px;
         }
 
-        /* Classement TOP 5 */
+        /* Alertes */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .alert-item {
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #1a2a3a;
+        }
+
+        .alert-item.warning {
+            border-left: 3px solid #ffaa44;
+        }
+
+        .alert-item.danger {
+            border-left: 3px solid #ff4d4d;
+        }
+
+        .alert-item.info {
+            border-left: 3px solid #5a9eff;
+        }
+
+        .alert-item i {
+            font-size: 1.2rem;
+        }
+
+        .alert-item.warning i { color: #ffaa44; }
+        .alert-item.danger i { color: #ff4d4d; }
+        .alert-item.info i { color: #5a9eff; }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .alert-desc {
+            font-size: 0.7rem;
+            color: #8a9aaa;
+            margin-top: 2px;
+        }
+
+        /* Classements */
         .ranking-list {
             display: flex;
             flex-direction: column;
@@ -161,23 +225,22 @@
             padding: 10px;
             background: #1a2a3a;
             border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .ranking-item:hover {
+            background: #1a2a3a;
+            transform: translateX(4px);
         }
 
         .rank-medal {
-            width: 40px;
+            width: 45px;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .rank-medal i.fa-trophy { color: #ffaa44; }
         .rank-medal i.fa-medal { color: #c0c0c0; }
-        .rank-medal i.fa-medal { color: #cd7f32; }
-
-        .rank-number {
-            width: 40px;
-            font-weight: 700;
-            color: #8a9aaa;
-        }
 
         .product-name {
             flex: 1;
@@ -196,14 +259,29 @@
             text-align: right;
         }
 
-        .clicks-bar-container {
+        .stat-numbers {
+            display: flex;
+            gap: 16px;
+            width: 100px;
+            justify-content: flex-end;
+        }
+
+        .stat-numbers span {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .stat-numbers .views { color: #5a9eff; }
+        .stat-numbers .clicks { color: #4ade80; }
+
+        .bar-container {
             width: 120px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .clicks-bar {
+        .bar {
             flex: 1;
             height: 6px;
             background: #2a3a4a;
@@ -211,100 +289,39 @@
             overflow: hidden;
         }
 
-        .clicks-bar-fill {
+        .bar-fill {
             height: 100%;
             background: #5a9eff;
             border-radius: 3px;
         }
 
-        .clicks-count {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #ffaa44;
-            min-width: 45px;
-            text-align: right;
+        .bar-fill.clicks {
+            background: #4ade80;
         }
 
-        /* Catégories */
-        .category-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid #1a2a3a;
+        /* Graphiques */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
         }
 
-        .category-name {
-            width: 120px;
-            font-weight: 500;
+        .chart-card {
+            background: #0e1a26;
+            border: 1px solid #2a3a4a;
+            border-radius: 20px;
+            padding: 16px;
         }
 
-        .category-bar-container {
-            flex: 1;
-            height: 8px;
-            background: #2a3a4a;
-            border-radius: 4px;
-            overflow: hidden;
+        .chart-card h4 {
+            font-size: 0.85rem;
+            color: #8a9aaa;
+            margin-bottom: 16px;
         }
 
-        .category-bar-fill {
-            height: 100%;
-            background: #5a9eff;
-            border-radius: 4px;
-        }
-
-        .category-count {
-            width: 50px;
-            text-align: right;
-            font-weight: 600;
-            color: #5a9eff;
-        }
-
-        /* Produit moins cliqué */
-        .lowest-product {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 12px;
-            background: #1a2a3a;
-            border-radius: 12px;
-        }
-
-        .lowest-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-        }
-
-        .btn-promote {
-            background: transparent;
-            border: 1px solid #ffaa44;
-            border-radius: 30px;
-            padding: 6px 16px;
-            color: #ffaa44;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-promote:hover {
-            background: #ffaa44;
-            color: #1a2a3a;
-        }
-
-        /* Featured product */
-        .featured-product {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: #1a2a3a;
-            border-radius: 12px;
-            border-left: 3px solid #ffaa44;
+        canvas {
+            max-height: 200px;
         }
 
         /* Loader */
@@ -323,7 +340,9 @@
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
         /* Toast */
         .toast {
@@ -345,39 +364,27 @@
             white-space: nowrap;
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast.success { border-color: #4ade80; color: #4ade80; }
         .toast.error { border-color: #ff4d4d; color: #ff4d4d; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
             .ranking-item {
                 flex-wrap: wrap;
             }
-
             .product-price {
                 width: auto;
                 margin-left: auto;
             }
-
-            .clicks-bar-container {
+            .bar-container {
                 width: 100%;
                 margin-top: 6px;
-                margin-left: 40px;
+                margin-left: 45px;
             }
-
-            .lowest-product {
-                flex-direction: column;
-                align-items: flex-start;
+            .stat-numbers {
+                width: 100%;
+                margin-left: 45px;
+                justify-content: flex-start;
             }
         }
     </style>
@@ -389,8 +396,10 @@
         <a href="settings.html" class="back-btn">
             <i class="fas fa-arrow-left"></i> Retour
         </a>
-        <h3>Statistiques</h3>
-        <div id="marketStatusBadge" class="status-badge">Chargement...</div>
+        <h3>Statistiques avancées</h3>
+        <button id="refreshBtn" class="refresh-btn">
+            <i class="fas fa-sync-alt"></i>
+        </button>
     </header>
 
     <main class="main-content" id="statsContent">
@@ -403,25 +412,25 @@
     <div id="toast" class="toast"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         (function() {
             const SUPABASE_URL = 'https://emcsigvlopntwbfkkjkh.supabase.co';
             const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtY3NpZ3Zsb3BudHdiZmtramtoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4ODE5MTgsImV4cCI6MjA5NDQ1NzkxOH0.YwYoV-azL3WEFtHoh4yoF7xTLrOwZILKCzJrGPsCs6I';
 
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            const statsContent = document.getElementById('statsContent');
+            const refreshBtn = document.getElementById('refreshBtn');
+            const toastEl = document.getElementById('toast');
 
             let currentUserId = null;
             let allProducts = [];
-            let marketActive = true;
-
-            const statsContent = document.getElementById('statsContent');
-            const marketStatusBadge = document.getElementById('marketStatusBadge');
-            const toastEl = document.getElementById('toast');
+            let productStats = {};
 
             function showToast(message, type = 'info') {
                 toastEl.textContent = message;
                 toastEl.className = `toast ${type} show`;
-                setTimeout(() => { toastEl.className = 'toast'; }, 3000);
+                setTimeout(() => toastEl.className = 'toast', 3000);
             }
 
             async function checkSession() {
@@ -436,229 +445,124 @@
                 }
             }
 
-            async function loadMarketStatus() {
-                const { data, error } = await supabase
-                    .from('markets')
-                    .select('market_active')
-                    .eq('id', currentUserId)
-                    .single();
-                
-                if (!error && data) {
-                    marketActive = data.market_active !== false;
-                    marketStatusBadge.textContent = marketActive ? '✅ Actif' : '🔴 Désactivé';
-                    marketStatusBadge.className = marketActive ? 'status-badge active' : 'status-badge inactive';
-                } else {
-                    marketActive = true;
-                    marketStatusBadge.textContent = '✅ Actif';
-                    marketStatusBadge.className = 'status-badge active';
+            async function loadData() {
+                showLoading();
+                try {
+                    // Charger les produits
+                    const { data: products, error: productsError } = await supabase
+                        .from('products')
+                        .select('*')
+                        .eq('user_id', currentUserId)
+                        .order('created_at', { ascending: false });
+
+                    if (productsError) throw productsError;
+                    allProducts = products || [];
+
+                    // Charger les stats des produits
+                    const productIds = allProducts.map(p => p.id);
+                    if (productIds.length > 0) {
+                        const { data: stats, error: statsError } = await supabase
+                            .from('product_stats')
+                            .select('*')
+                            .in('product_id', productIds);
+
+                        if (statsError) throw statsError;
+
+                        // Aggréger les stats par produit
+                        productStats = {};
+                        for (const stat of stats || []) {
+                            if (!productStats[stat.product_id]) {
+                                productStats[stat.product_id] = { views: 0, clicks: 0 };
+                            }
+                            productStats[stat.product_id].views += stat.view_count || 0;
+                            productStats[stat.product_id].clicks += stat.click_count || 0;
+                        }
+                    }
+
+                    renderStats();
+
+                } catch (err) {
+                    console.error('Erreur:', err);
+                    showToast('Erreur chargement des données', 'error');
+                } finally {
+                    hideLoading();
                 }
             }
 
-            async function loadProducts() {
-                const { data, error } = await supabase
-                    .from('products')
-                    .select('*')
-                    .eq('user_id', currentUserId);
-                
-                if (error) throw error;
-                allProducts = data || [];
+            function getProductViews(productId) {
+                return productStats[productId]?.views || 0;
             }
 
-            function getTopProducts(limit = 5) {
+            function getProductClicks(productId) {
+                return productStats[productId]?.clicks || 0;
+            }
+
+            function getTotalViews() {
+                return allProducts.reduce((sum, p) => sum + getProductViews(p.id), 0);
+            }
+
+            function getTotalClicks() {
+                return allProducts.reduce((sum, p) => sum + getProductClicks(p.id), 0);
+            }
+
+            function getConversionRate() {
+                const views = getTotalViews();
+                const clicks = getTotalClicks();
+                if (views === 0) return 0;
+                return ((clicks / views) * 100).toFixed(1);
+            }
+
+            function getTopProductsByViews(limit = 5) {
                 return [...allProducts]
-                    .sort((a, b) => (b.click_count || 0) - (a.click_count || 0))
+                    .sort((a, b) => getProductViews(b.id) - getProductViews(a.id))
                     .slice(0, limit);
             }
 
-            function getLowestProduct() {
-                const withClicks = allProducts.filter(p => (p.click_count || 0) > 0);
-                if (withClicks.length === 0) return null;
-                return withClicks.reduce((min, p) => (p.click_count || 0) < (min.click_count || 0) ? p : min, withClicks[0]);
+            function getTopProductsByClicks(limit = 5) {
+                return [...allProducts]
+                    .sort((a, b) => getProductClicks(b.id) - getProductClicks(a.id))
+                    .slice(0, limit);
             }
 
-            function getFeaturedProduct() {
-                return allProducts.find(p => p.featured === true);
+            function getLowestProducts() {
+                const withClicks = allProducts.filter(p => getProductClicks(p.id) === 0 && getProductViews(p.id) > 0);
+                return withClicks.slice(0, 3);
+            }
+
+            function getInactiveProducts() {
+                return allProducts.filter(p => p.active === false);
+            }
+
+            function getProductsWithoutImage() {
+                return allProducts.filter(p => !p.images || p.images.length === 0 || !p.images[0]);
             }
 
             function getCategoryStats() {
                 const stats = {};
                 allProducts.forEach(p => {
                     const cat = p.category || 'Non classé';
-                    stats[cat] = (stats[cat] || 0) + 1;
+                    if (!stats[cat]) stats[cat] = { count: 0, views: 0, clicks: 0 };
+                    stats[cat].count++;
+                    stats[cat].views += getProductViews(p.id);
+                    stats[cat].clicks += getProductClicks(p.id);
                 });
-                return Object.entries(stats).sort((a, b) => b[1] - a[1]);
+                return Object.entries(stats).sort((a, b) => b[1].views - a[1].views);
+            }
+
+            function getProductsByDay(days = 7) {
+                const result = {};
+                for (let i = days - 1; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+                    result[dateStr] = { products: 0, views: 0, clicks: 0 };
+                }
+                return result;
             }
 
             function formatPrice(price) {
                 return new Intl.NumberFormat('fr-FR').format(price);
             }
-
-            function getMaxClicks() {
-                if (allProducts.length === 0) return 0;
-                return Math.max(...allProducts.map(p => p.click_count || 0));
-            }
-
-            function renderStats() {
-                const totalProducts = allProducts.length;
-                const activeProducts = allProducts.filter(p => p.active !== false).length;
-                const inactiveProducts = totalProducts - activeProducts;
-                const totalClicks = allProducts.reduce((sum, p) => sum + (p.click_count || 0), 0);
-                const maxClicks = getMaxClicks();
-                const topProducts = getTopProducts(5);
-                const lowestProduct = getLowestProduct();
-                const featuredProduct = getFeaturedProduct();
-                const categoryStats = getCategoryStats();
-
-                const rankIcons = ['🥇', '🥈', '🥉', '4', '5'];
-
-                const topProductsHtml = topProducts.map((product, idx) => {
-                    const clicks = product.click_count || 0;
-                    const barWidth = maxClicks > 0 ? (clicks / maxClicks) * 100 : 0;
-                    const rankDisplay = idx < 3 
-                        ? `<i class="fas ${idx === 0 ? 'fa-trophy' : 'fa-medal'}"></i>`
-                        : `<span class="rank-number">${rankIcons[idx]}</span>`;
-                    return `
-                        <div class="ranking-item">
-                            <div class="rank-medal">${rankDisplay}</div>
-                            <div class="product-name">${escapeHtml(product.name)}</div>
-                            <div class="product-price">${formatPrice(product.price)} FCFA</div>
-                            <div class="clicks-bar-container">
-                                <div class="clicks-bar">
-                                    <div class="clicks-bar-fill" style="width: ${barWidth}%;"></div>
-                                </div>
-                                <div class="clicks-count">${clicks} clics</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                const categoryMax = Math.max(...categoryStats.map(c => c[1]), 1);
-                const categoriesHtml = categoryStats.map(([name, count]) => {
-                    const barWidth = (count / categoryMax) * 100;
-                    return `
-                        <div class="category-item">
-                            <div class="category-name">${escapeHtml(name)}</div>
-                            <div class="category-bar-container">
-                                <div class="category-bar-fill" style="width: ${barWidth}%;"></div>
-                            </div>
-                            <div class="category-count">${count}</div>
-                        </div>
-                    `;
-                }).join('');
-
-                const lowestHtml = lowestProduct ? `
-                    <div class="lowest-product">
-                        <div class="lowest-info">
-                            <i class="fas fa-chart-line" style="color: #ffaa44;"></i>
-                            <strong>${escapeHtml(lowestProduct.name)}</strong>
-                            <span style="color: #8a9aaa;">${lowestProduct.click_count || 0} clics</span>
-                        </div>
-                        <button class="btn-promote" data-id="${lowestProduct.id}">
-                            <i class="fas fa-arrow-up"></i> Mettre en avant
-                        </button>
-                    </div>
-                ` : '<p style="color:#8a9aaa;">Aucun produit avec des clics</p>';
-
-                const featuredHtml = featuredProduct ? `
-                    <div class="featured-product">
-                        <div>
-                            <i class="fas fa-star" style="color: #ffaa44;"></i>
-                            <strong>${escapeHtml(featuredProduct.name)}</strong>
-                            <span style="color: #8a9aaa; margin-left: 8px;">${featuredProduct.click_count || 0} clics</span>
-                        </div>
-                        <span style="font-size:0.7rem; color:#ffaa44;">⭐ À la une</span>
-                    </div>
-                ` : '<p style="color:#8a9aaa;">Aucun produit à la une</p>';
-
-                statsContent.innerHTML = `
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-boxes"></i>
-                            <div class="stat-value">${totalProducts}</div>
-                            <div class="stat-label">Total produits</div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-check-circle"></i>
-                            <div class="stat-value">${activeProducts}</div>
-                            <div class="stat-label">Produits actifs</div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-ban"></i>
-                            <div class="stat-value">${inactiveProducts}</div>
-                            <div class="stat-label">Produits inactifs</div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-eye"></i>
-                            <div class="stat-value">${totalClicks}</div>
-                            <div class="stat-label">Total clics</div>
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h4><i class="fas fa-trophy"></i> TOP 5 des produits les plus cliqués</h4>
-                        <div class="ranking-list">
-                            ${topProductsHtml || '<p>Aucun produit</p>'}
-                        </div>
-                    </div>
-
-                    <div class="section">
-                        <h4><i class="fas fa-chart-pie"></i> Répartition par catégorie</h4>
-                        ${categoriesHtml || '<p>Aucune catégorie</p>'}
-                    </div>
-
-                    <div class="section">
-                        <h4><i class="fas fa-star"></i> Produit à la une</h4>
-                        ${featuredHtml}
-                    </div>
-
-                    <div class="section">
-                        <h4><i class="fas fa-chart-line"></i> Produit le moins cliqué</h4>
-                        ${lowestHtml}
-                    </div>
-                `;
-
-                document.querySelectorAll('.btn-promote').forEach(btn => {
-                    btn.addEventListener('click', async (e) => {
-                        const productId = btn.getAttribute('data-id');
-                        await promoteProduct(productId);
-                    });
-                });
-            }
-
-            async function promoteProduct(productId) {
-                showLoading();
-                try {
-                    await supabase
-                        .from('products')
-                        .update({ featured: false })
-                        .eq('user_id', currentUserId);
-                    
-                    const { error } = await supabase
-                        .from('products')
-                        .update({ featured: true })
-                        .eq('id', productId)
-                        .eq('user_id', currentUserId);
-                    
-                    if (error) throw error;
-                    showToast('Produit mis en avant !', 'success');
-                    await loadProducts();
-                    renderStats();
-                } catch (err) {
-                    showToast('Erreur: ' + err.message, 'error');
-                }
-                hideLoading();
-            }
-
-            function showLoading() {
-                statsContent.innerHTML = `
-                    <div class="loader">
-                        <div class="spinner"></div>
-                        <p>Chargement des statistiques...</p>
-                    </div>
-                `;
-            }
-
-            function hideLoading() {}
 
             function escapeHtml(text) {
                 if (!text) return '';
@@ -667,12 +571,148 @@
                 return div.innerHTML;
             }
 
+            function getMaxValue(products, type) {
+                if (products.length === 0) return 0;
+                return Math.max(...products.map(p => type === 'views' ? getProductViews(p.id) : getProductClicks(p.id)));
+            }
+
+            function showLoading() {
+                statsContent.innerHTML = `<div class="loader"><div class="spinner"></div><p>Chargement des statistiques...</p></div>`;
+            }
+
+            function hideLoading() {}
+
+            let charts = {};
+
+            function renderStats() {
+                const totalProducts = allProducts.length;
+                const activeProducts = allProducts.filter(p => p.active !== false).length;
+                const totalViews = getTotalViews();
+                const totalClicks = getTotalClicks();
+                const conversionRate = getConversionRate();
+                const topByViews = getTopProductsByViews(5);
+                const topByClicks = getTopProductsByClicks(5);
+                const lowestProducts = getLowestProducts();
+                const inactiveProducts = getInactiveProducts();
+                const productsWithoutImage = getProductsWithoutImage();
+                const categoryStats = getCategoryStats();
+                const maxViews = getMaxValue(topByViews, 'views');
+                const maxClicks = getMaxValue(topByClicks, 'clicks');
+
+                // Alertes
+                const alerts = [];
+                if (inactiveProducts.length > 0) {
+                    alerts.push({ type: 'warning', icon: 'fa-eye-slash', title: `${inactiveProducts.length} produit(s) désactivé(s)`, desc: 'Ces produits ne sont pas visibles par les acheteurs' });
+                }
+                if (productsWithoutImage.length > 0) {
+                    alerts.push({ type: 'danger', icon: 'fa-image-slash', title: `${productsWithoutImage.length} produit(s) sans image`, desc: 'Ajoutez des images pour améliorer l\'attractivité' });
+                }
+                if (lowestProducts.length > 0) {
+                    alerts.push({ type: 'info', icon: 'fa-chart-line', title: `${lowestProducts.length} produit(s) sans aucun clic`, desc: 'Ces produits n\'ont jamais été commandés' });
+                }
+                if (totalViews === 0) {
+                    alerts.push({ type: 'warning', icon: 'fa-eye-slash', title: 'Aucune vue sur vos produits', desc: 'Partagez votre boutique pour attirer des clients' });
+                }
+
+                const topViewsHtml = topByViews.map((product, idx) => {
+                    const views = getProductViews(product.id);
+                    const barWidth = maxViews > 0 ? (views / maxViews) * 100 : 0;
+                    const medal = idx === 0 ? '<i class="fas fa-trophy"></i>' : (idx === 1 ? '<i class="fas fa-medal"></i>' : (idx === 2 ? '<i class="fas fa-medal"></i>' : `${idx + 1}`));
+                    return `
+                        <div class="ranking-item">
+                            <div class="rank-medal">${medal}</div>
+                            <div class="product-name">${escapeHtml(product.name)}</div>
+                            <div class="product-price">${formatPrice(product.price)} FCFA</div>
+                            <div class="bar-container">
+                                <div class="bar"><div class="bar-fill" style="width: ${barWidth}%;"></div></div>
+                                <span class="views">${views} vues</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                const topClicksHtml = topByClicks.map((product, idx) => {
+                    const clicks = getProductClicks(product.id);
+                    const barWidth = maxClicks > 0 ? (clicks / maxClicks) * 100 : 0;
+                    const medal = idx === 0 ? '<i class="fas fa-trophy"></i>' : (idx === 1 ? '<i class="fas fa-medal"></i>' : (idx === 2 ? '<i class="fas fa-medal"></i>' : `${idx + 1}`));
+                    return `
+                        <div class="ranking-item">
+                            <div class="rank-medal">${medal}</div>
+                            <div class="product-name">${escapeHtml(product.name)}</div>
+                            <div class="product-price">${formatPrice(product.price)} FCFA</div>
+                            <div class="bar-container">
+                                <div class="bar"><div class="bar-fill clicks" style="width: ${barWidth}%;"></div></div>
+                                <span class="clicks">${clicks} commandes</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                const alertsHtml = alerts.length > 0 
+                    ? alerts.map(alert => `
+                        <div class="alert-item ${alert.type}">
+                            <i class="fas ${alert.icon}"></i>
+                            <div class="alert-content">
+                                <div class="alert-title">${alert.title}</div>
+                                <div class="alert-desc">${alert.desc}</div>
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="alert-item info"><i class="fas fa-check-circle"></i><div class="alert-content"><div class="alert-title">Tout va bien !</div><div class="alert-desc">Aucun problème détecté sur vos produits</div></div></div>';
+
+                const lowestHtml = lowestProducts.length > 0
+                    ? lowestProducts.map(p => `
+                        <div class="ranking-item">
+                            <div class="rank-medal"><i class="fas fa-chart-line"></i></div>
+                            <div class="product-name">${escapeHtml(p.name)}</div>
+                            <div class="product-price">${formatPrice(p.price)} FCFA</div>
+                            <div class="stat-numbers"><span class="views">${getProductViews(p.id)} vues</span><span class="clicks">${getProductClicks(p.id)} commandes</span></div>
+                        </div>
+                    `).join('')
+                    : '<div style="padding: 12px; text-align: center; color: #8a9aaa;">Tous vos produits ont reçu au moins un clic !</div>';
+
+                statsContent.innerHTML = `
+                    <div class="stats-grid">
+                        <div class="stat-card"><i class="fas fa-boxes"></i><div class="stat-value">${totalProducts}</div><div class="stat-label">Total produits</div><div class="stat-trend trend-up">${activeProducts} actifs</div></div>
+                        <div class="stat-card"><i class="fas fa-eye"></i><div class="stat-value">${totalViews}</div><div class="stat-label">Vues totales</div></div>
+                        <div class="stat-card"><i class="fab fa-whatsapp"></i><div class="stat-value">${totalClicks}</div><div class="stat-label">Commandes WhatsApp</div></div>
+                        <div class="stat-card"><i class="fas fa-chart-line"></i><div class="stat-value">${conversionRate}%</div><div class="stat-label">Taux de conversion</div></div>
+                    </div>
+
+                    <div class="section"><h4><i class="fas fa-exclamation-triangle"></i> Alertes & recommandations</h4><div class="alert-list">${alertsHtml}</div></div>
+
+                    <div class="charts-row">
+                        <div class="chart-card"><h4><i class="fas fa-chart-bar"></i> Top produits (vues)</h4><div class="ranking-list">${topViewsHtml || '<p>Aucune donnée</p>'}</div></div>
+                        <div class="chart-card"><h4><i class="fab fa-whatsapp"></i> Top produits (commandes)</h4><div class="ranking-list">${topClicksHtml || '<p>Aucune donnée</p>'}</div></div>
+                    </div>
+
+                    <div class="section"><h4><i class="fas fa-chart-pie"></i> Performance par catégorie</h4><div id="categoryChartContainer" style="height: 200px;"><canvas id="categoryChart"></canvas></div></div>
+
+                    <div class="section"><h4><i class="fas fa-chart-line"></i> Produits à booster (peu ou pas de commandes)</h4><div class="ranking-list">${lowestHtml}</div></div>
+                `;
+
+                // Graphique catégories
+                const ctx = document.getElementById('categoryChart').getContext('2d');
+                if (charts.categoryChart) charts.categoryChart.destroy();
+                charts.categoryChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: categoryStats.map(c => c[0]),
+                        datasets: [
+                            { label: 'Vues', data: categoryStats.map(c => c[1].views), backgroundColor: '#5a9eff', borderRadius: 8 },
+                            { label: 'Commandes', data: categoryStats.map(c => c[1].clicks), backgroundColor: '#4ade80', borderRadius: 8 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { labels: { color: '#eef2ff' } } }, scales: { y: { grid: { color: '#2a3a4a' }, ticks: { color: '#eef2ff' } }, x: { ticks: { color: '#eef2ff' } } } }
+                });
+            }
+
             async function init() {
                 const ok = await checkSession();
-                if (!ok) return;
-                await loadMarketStatus();
-                await loadProducts();
-                renderStats();
+                if (ok) {
+                    await loadData();
+                    refreshBtn.onclick = () => loadData();
+                }
             }
 
             init();
