@@ -1,5 +1,5 @@
 // ===============================================
-// SETTINGS.JS - PARAMÈTRES
+// SETTINGS.JS - PARAMÈTRES AMÉLIORÉS
 // ===============================================
 
 (function() {
@@ -10,12 +10,13 @@
 
     let currentUserId = null;
     let currentAvatarFile = null;
+    let isSaving = false;
 
     // Éléments DOM
     const adminAvatar = document.getElementById('adminAvatar');
     const changeAvatarBtn = document.getElementById('changeAvatarBtn');
     const avatarInput = document.getElementById('avatarInput');
-    const whatsappLink = document.getElementById('whatsappLink');
+    const settingsWhatsapp = document.getElementById('settingsWhatsapp');
     const whatsappValidator = document.getElementById('whatsappValidator');
     const settingsOwnerName = document.getElementById('settingsOwnerName');
     const settingsAccountEmail = document.getElementById('settingsAccountEmail');
@@ -24,113 +25,75 @@
     const settingsPublicEmail = document.getElementById('settingsPublicEmail');
     const settingsCity = document.getElementById('settingsCity');
     const settingsDescription = document.getElementById('settingsDescription');
-    const marketActiveToggle = document.getElementById('marketActiveToggle');
     const announcementMessage = document.getElementById('announcementMessage');
     const charCountSpan = document.getElementById('charCount');
     const sendMessageBtn = document.getElementById('sendMessageBtn');
     const saveAllSettingsBtn = document.getElementById('saveAllSettingsBtn');
     const changePasswordBtn = document.getElementById('changePasswordBtn');
     const logoutBtn = document.getElementById('logoutBtn');
-    const themeLight = document.getElementById('themeLight');
-    const themeDark = document.getElementById('themeDark');
     const loadingModal = document.getElementById('loadingModal');
     const toastEl = document.getElementById('toast');
+    const reminderBanner = document.getElementById('reminderBanner');
+    const descWordCount = document.getElementById('descWordCount');
 
     // ============================================
-    // VALIDATION ET FORMATAGE WHATSAPP
+    // TOAST NOTIFICATION
     // ============================================
-    
+    function showToast(message, type = 'success') {
+        toastEl.textContent = message;
+        toastEl.className = `toast ${type} show`;
+        setTimeout(() => toastEl.classList.remove('show'), 3000);
+    }
+
+    // ============================================
+    // VALIDATION WHATSAPP
+    // ============================================
     function cleanWhatsappNumber(number) {
         if (!number) return '';
         return number.replace(/\D/g, '');
     }
-    
-    // Normaliser pour stockage: 2250503588336 (13 chiffres)
+
     function normalizeWhatsappNumber(number) {
         let clean = cleanWhatsappNumber(number);
         if (!clean) return '';
-        
-        // Cas: 0503588336 (11 chiffres: 0 + 10 chiffres)
-        if (clean.length === 11 && clean.startsWith('0')) {
-            clean = '225' + clean.substring(1);
-        }
-        // Cas: 503588336 (9 chiffres)
-        else if (clean.length === 9) {
-            clean = '2250' + clean;
-        }
-        // Cas: 2250503588336 (13 chiffres)
-        else if (clean.length === 13 && clean.startsWith('225')) {
-            // déjà bon
-        }
-        // Cas: 2250503588336 avec plus de chiffres
-        else if (clean.length > 13 && clean.startsWith('225')) {
-            clean = clean.substring(0, 13);
-        }
-        
+        if (clean.startsWith('0')) clean = clean.substring(1);
+        if (!clean.startsWith('225')) clean = '225' + clean;
         return clean;
     }
-    
-    // Formater pour affichage: +225 05 03 58 83 36
+
     function formatWhatsappDisplay(number) {
         let clean = cleanWhatsappNumber(number);
         if (!clean) return '';
-        
-        // Extraire les 10 chiffres après 225
-        let digits = clean;
-        if (digits.startsWith('225')) {
-            digits = digits.substring(3);
-        }
-        if (digits.startsWith('0')) {
-            digits = digits.substring(1);
-        }
-        
-        // S'assurer qu'on a 10 chiffres (compléter si besoin)
-        while (digits.length < 10) {
-            digits = '0' + digits;
-        }
-        if (digits.length > 10) {
-            digits = digits.substring(0, 10);
-        }
-        
-        // Formater par paires
+        if (clean.startsWith('225')) clean = clean.substring(3);
+        if (clean.startsWith('0')) clean = clean.substring(1);
         let formatted = '+225 ';
-        for (let i = 0; i < digits.length; i += 2) {
-            formatted += digits.substring(i, i + 2) + ' ';
+        for (let i = 0; i < clean.length; i += 2) {
+            formatted += clean.substring(i, i + 2) + ' ';
         }
         return formatted.trim();
     }
-    
+
     function getWhatsAppLink(number) {
         const normalized = normalizeWhatsappNumber(number);
         if (!normalized) return '#';
         return `https://wa.me/${normalized}`;
     }
-    
+
     function validateWhatsapp(number) {
         const normalized = normalizeWhatsappNumber(number);
-        if (!normalized) {
-            return { valid: false, message: 'Numéro requis' };
-        }
-        
-        if (normalized.length !== 13) {
-            return { valid: false, message: 'Le numéro doit avoir 13 chiffres (225 + 10 chiffres)' };
-        }
-        
-        if (!normalized.startsWith('225')) {
-            return { valid: false, message: 'Le numéro doit commencer par 225' };
-        }
-        
+        if (!normalized) return { valid: false, message: 'Numéro requis' };
+        if (normalized.length !== 13) return { valid: false, message: 'Le numéro doit avoir 13 chiffres (225 + 10 chiffres)' };
+        if (!normalized.startsWith('225')) return { valid: false, message: 'Le numéro doit commencer par 225' };
         return { valid: true, message: 'Numéro valide', normalized: normalized };
     }
-    
+
     function updateWhatsappValidator() {
-        const rawValue = whatsappLink.value;
+        const rawValue = settingsWhatsapp.value;
         const validation = validateWhatsapp(rawValue);
         
         if (validation.valid) {
             const displayNumber = formatWhatsappDisplay(rawValue);
             const waLink = getWhatsAppLink(rawValue);
-            
             whatsappValidator.innerHTML = `
                 <i class="fas fa-check-circle"></i> ✓ ${validation.message}
                 <div class="validator-hint">Format officiel : ${displayNumber}</div>
@@ -139,75 +102,121 @@
                     <a href="${waLink}" target="_blank">${waLink}</a>
                 </div>
             `;
-            whatsappValidator.className = 'validator-box success';
-            whatsappLink.style.borderColor = '#4ade80';
+            whatsappValidator.className = 'whatsapp-validator success';
+            settingsWhatsapp.style.borderColor = '#4ade80';
+            document.getElementById('whatsappGroup').classList.remove('error');
+            return true;
         } else {
             whatsappValidator.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i> ⚠️ ${validation.message}
+                <i class="fas fa-exclamation-triangle"></i> ❌ ${validation.message}
                 <div class="validator-hint">Format attendu : +225 05 03 58 83 36</div>
                 <div class="validator-hint">Exemple : 0503588336 ou +2250503588336</div>
             `;
-            whatsappValidator.className = 'validator-box error';
-            whatsappLink.style.borderColor = '#ff4d4d';
-        }
-    }
-
-    // ============================================
-    // UTILITAIRES
-    // ============================================
-    function showLoading(msg = 'Chargement...') {
-        const modalStatus = document.getElementById('modalStatus');
-        if (modalStatus) modalStatus.textContent = msg;
-        loadingModal.style.display = 'flex';
-    }
-
-    function hideLoading() {
-        loadingModal.style.display = 'none';
-    }
-
-    function showToast(message, type = 'info') {
-        toastEl.textContent = message;
-        toastEl.className = `toast ${type} show`;
-        setTimeout(() => { toastEl.className = 'toast'; }, 3000);
-    }
-
-    async function checkSession() {
-        try {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) { window.location.href = 'auth.html'; return false; }
-            currentUserId = session.user.id;
-            return true;
-        } catch {
-            window.location.href = 'auth.html';
+            whatsappValidator.className = 'whatsapp-validator error';
+            settingsWhatsapp.style.borderColor = '#ff4d4d';
             return false;
         }
     }
 
     // ============================================
-    // THEME
+    // VALIDATION DES AUTRES CHAMPS
     // ============================================
-    function initTheme() {
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.setAttribute('data-theme', savedTheme);
-        if (savedTheme === 'light') {
-            themeLight.classList.add('active');
-            themeDark.classList.remove('active');
+    function checkRequiredFields() {
+        let hasMissing = false;
+        const warnings = [];
+
+        // Nom du propriétaire
+        if (!settingsOwnerName.value.trim()) {
+            document.getElementById('ownerNameWarning').style.display = 'flex';
+            document.getElementById('ownerNameGroup').classList.add('warning');
+            hasMissing = true;
+            warnings.push('nom');
         } else {
-            themeLight.classList.remove('active');
-            themeDark.classList.add('active');
+            document.getElementById('ownerNameWarning').style.display = 'none';
+        }
+
+        // Téléphone (recommandé)
+        if (!settingsPhone.value.trim()) {
+            document.getElementById('phoneWarning').style.display = 'flex';
+            hasMissing = true;
+        } else {
+            document.getElementById('phoneWarning').style.display = 'none';
+        }
+
+        // Ville
+        if (!settingsCity.value.trim()) {
+            document.getElementById('cityWarning').style.display = 'flex';
+            hasMissing = true;
+        } else {
+            document.getElementById('cityWarning').style.display = 'none';
+        }
+
+        // Description (100 mots)
+        const descText = settingsDescription.value.trim();
+        const wordCount = descText.length === 0 ? 0 : descText.split(/\s+/).length;
+        if (wordCount < 100 && descText.length > 0) {
+            document.getElementById('descWarning').style.display = 'flex';
+            hasMissing = true;
+        } else {
+            document.getElementById('descWarning').style.display = 'none';
+        }
+
+        // WhatsApp
+        const whatsappValid = updateWhatsappValidator();
+        if (!whatsappValid) {
+            hasMissing = true;
+        }
+
+        if (hasMissing) {
+            reminderBanner.style.display = 'flex';
+        } else {
+            reminderBanner.style.display = 'none';
+        }
+
+        return !hasMissing;
+    }
+
+    function updateWordCount() {
+        const text = settingsDescription.value;
+        const wordCount = text.trim().length === 0 ? 0 : text.trim().split(/\s+/).length;
+        descWordCount.textContent = `${wordCount} / 100 mots`;
+        if (wordCount >= 100) {
+            descWordCount.style.color = '#4ade80';
+        } else if (wordCount > 0) {
+            descWordCount.style.color = '#ffaa44';
+        } else {
+            descWordCount.style.color = '#8a9aaa';
         }
     }
 
-    function setTheme(theme) {
-        document.body.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        if (theme === 'light') {
-            themeLight.classList.add('active');
-            themeDark.classList.remove('active');
+    // ============================================
+    // ANIMATION BOUTON SAUVEGARDE
+    // ============================================
+    async function animateSave(action) {
+        if (isSaving) return false;
+        isSaving = true;
+        const originalText = saveAllSettingsBtn.innerHTML;
+        saveAllSettingsBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Enregistrement...';
+        saveAllSettingsBtn.disabled = true;
+
+        const result = await action();
+
+        if (result) {
+            saveAllSettingsBtn.innerHTML = '<i class="fas fa-check"></i> Succès !';
+            setTimeout(() => {
+                saveAllSettingsBtn.innerHTML = originalText;
+                saveAllSettingsBtn.disabled = false;
+                isSaving = false;
+            }, 1500);
         } else {
-            themeLight.classList.remove('active');
-            themeDark.classList.add('active');
+            saveAllSettingsBtn.innerHTML = '<i class="fas fa-times"></i> Échec';
+            setTimeout(() => {
+                saveAllSettingsBtn.innerHTML = originalText;
+                saveAllSettingsBtn.disabled = false;
+                isSaving = false;
+            }, 2000);
         }
+        return result;
     }
 
     // ============================================
@@ -232,32 +241,20 @@
                 settingsPublicEmail.value = marketInfo.public_email || '';
                 settingsCity.value = marketInfo.city || '';
                 settingsDescription.value = marketInfo.description || '';
-                
-                // Afficher le WhatsApp formaté
-                if (marketInfo.whatsapp) {
-                    whatsappLink.value = formatWhatsappDisplay(marketInfo.whatsapp);
-                } else {
-                    whatsappLink.value = '';
-                }
-                
-                marketActiveToggle.checked = marketInfo.market_active !== false;
+                settingsWhatsapp.value = marketInfo.whatsapp || '';
                 
                 if (announcementMessage) {
                     announcementMessage.value = marketInfo.announcement_text || '';
                     charCountSpan.textContent = (marketInfo.announcement_text || '').length;
                 }
                 
-                const msgType = marketInfo.announcement_type || 'info';
-                document.querySelectorAll('.type-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.getAttribute('data-type') === msgType);
-                });
-                
                 if (marketInfo.avatar_url) {
                     adminAvatar.src = marketInfo.avatar_url;
                 }
                 
-                // Valider le WhatsApp après chargement
                 updateWhatsappValidator();
+                updateWordCount();
+                checkRequiredFields();
             }
         } catch (err) {
             console.error('Erreur chargement:', err);
@@ -271,64 +268,53 @@
     // SAUVEGARDE
     // ============================================
     async function saveAllSettings() {
-        // Valider le WhatsApp
-        const validation = validateWhatsapp(whatsappLink.value);
-        if (!validation.valid) {
-            showToast(validation.message, 'error');
-            whatsappLink.focus();
-            return;
+        // Vérifier le WhatsApp
+        const whatsappValidation = validateWhatsapp(settingsWhatsapp.value);
+        if (!whatsappValidation.valid) {
+            showToast(whatsappValidation.message, 'error');
+            settingsWhatsapp.focus();
+            return false;
         }
         
-        const normalizedWhatsapp = normalizeWhatsappNumber(whatsappLink.value);
+        const normalizedWhatsapp = normalizeWhatsappNumber(settingsWhatsapp.value);
         
-        showLoading('Enregistrement...');
-        try {
-            const updates = {
-                owner_name: settingsOwnerName.value,
-                phone: settingsPhone.value,
-                market_name: settingsMarketName.value,
-                public_email: settingsPublicEmail.value,
-                city: settingsCity.value,
-                description: settingsDescription.value,
-                whatsapp: normalizedWhatsapp,
-                market_active: marketActiveToggle.checked,
-                updated_at: new Date().toISOString()
-            };
+        const updates = {
+            owner_name: settingsOwnerName.value,
+            phone: settingsPhone.value,
+            market_name: settingsMarketName.value,
+            public_email: settingsPublicEmail.value,
+            city: settingsCity.value,
+            description: settingsDescription.value,
+            whatsapp: normalizedWhatsapp,
+            updated_at: new Date().toISOString()
+        };
 
-            const { error } = await supabase
-                .from('markets')
-                .update(updates)
-                .eq('id', currentUserId);
+        const { error } = await supabase
+            .from('markets')
+            .update(updates)
+            .eq('id', currentUserId);
 
-            if (error) throw error;
+        if (error) throw error;
 
-            // Mettre à jour l'affichage avec le numéro formaté
-            whatsappLink.value = formatWhatsappDisplay(normalizedWhatsapp);
-            updateWhatsappValidator();
-
-            if (currentAvatarFile) {
-                const fileExt = currentAvatarFile.name.split('.').pop();
-                const fileName = `${currentUserId}/avatar.${fileExt}`;
-                
-                const { error: uploadError } = await supabase.storage
-                    .from('avatars')
-                    .upload(fileName, currentAvatarFile, { upsert: true });
-                
-                if (!uploadError) {
-                    const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(fileName);
-                    await supabase.from('markets').update({ avatar_url: urlData.publicUrl }).eq('id', currentUserId);
-                    adminAvatar.src = urlData.publicUrl;
-                }
-                currentAvatarFile = null;
+        if (currentAvatarFile) {
+            const fileExt = currentAvatarFile.name.split('.').pop();
+            const fileName = `${currentUserId}/avatar.${fileExt}`;
+            
+            const { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(fileName, currentAvatarFile, { upsert: true });
+            
+            if (!uploadError) {
+                const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(fileName);
+                await supabase.from('markets').update({ avatar_url: urlData.publicUrl }).eq('id', currentUserId);
+                adminAvatar.src = urlData.publicUrl;
             }
-
-            showToast('Paramètres enregistrés !', 'success');
-        } catch (err) {
-            console.error('Erreur:', err);
-            showToast('Erreur lors de l\'enregistrement', 'error');
-        } finally {
-            hideLoading();
+            currentAvatarFile = null;
         }
+
+        showToast('Paramètres enregistrés !', 'success');
+        checkRequiredFields();
+        return true;
     }
 
     // ============================================
@@ -336,8 +322,6 @@
     // ============================================
     async function sendMessage() {
         const message = announcementMessage.value;
-        const activeType = document.querySelector('.type-btn.active');
-        const announcementType = activeType ? activeType.getAttribute('data-type') : 'info';
         
         showLoading('Envoi du message...');
         try {
@@ -345,7 +329,6 @@
                 .from('markets')
                 .update({
                     announcement_text: message,
-                    announcement_type: announcementType,
                     show_announcement: true
                 })
                 .eq('id', currentUserId);
@@ -374,17 +357,7 @@
     });
 
     // ============================================
-    // TYPE MESSAGE
-    // ============================================
-    document.querySelectorAll('.type-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
-    });
-
-    // ============================================
-    // COMPTEUR CARACTÈRES
+    // COMPTEUR CARACTÈRES MESSAGE
     // ============================================
     announcementMessage.addEventListener('input', () => {
         charCountSpan.textContent = announcementMessage.value.length;
@@ -393,16 +366,25 @@
     // ============================================
     // ÉVÉNEMENTS WHATSAPP
     // ============================================
-    if (whatsappLink) {
-        whatsappLink.addEventListener('input', updateWhatsappValidator);
-        whatsappLink.addEventListener('blur', updateWhatsappValidator);
-    }
+    settingsWhatsapp.addEventListener('input', updateWhatsappValidator);
+    settingsWhatsapp.addEventListener('blur', updateWhatsappValidator);
+
+    // ============================================
+    // ÉVÉNEMENTS AUTRES CHAMPS
+    // ============================================
+    settingsOwnerName.addEventListener('input', () => checkRequiredFields());
+    settingsPhone.addEventListener('input', () => checkRequiredFields());
+    settingsCity.addEventListener('input', () => checkRequiredFields());
+    settingsDescription.addEventListener('input', () => {
+        updateWordCount();
+        checkRequiredFields();
+    });
 
     // ============================================
     // ACTIONS
     // ============================================
     sendMessageBtn.addEventListener('click', sendMessage);
-    saveAllSettingsBtn.addEventListener('click', saveAllSettings);
+    saveAllSettingsBtn.addEventListener('click', () => animateSave(() => saveAllSettings()));
     
     changePasswordBtn.addEventListener('click', async () => {
         const email = settingsAccountEmail.value;
@@ -416,17 +398,40 @@
         await supabase.auth.signOut();
         window.location.href = 'auth.html';
     });
-    
-    themeLight.addEventListener('click', () => setTheme('light'));
-    themeDark.addEventListener('click', () => setTheme('dark'));
+
+    // ============================================
+    // SESSION
+    // ============================================
+    function showLoading(msg = 'Chargement...') {
+        const modalStatus = document.getElementById('modalStatus');
+        if (modalStatus) modalStatus.textContent = msg;
+        loadingModal.style.display = 'flex';
+    }
+
+    function hideLoading() {
+        loadingModal.style.display = 'none';
+    }
+
+    async function checkSession() {
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) { window.location.href = 'auth.html'; return false; }
+            currentUserId = session.user.id;
+            return true;
+        } catch {
+            window.location.href = 'auth.html';
+            return false;
+        }
+    }
 
     // ============================================
     // INIT
     // ============================================
     async function init() {
-        await checkSession();
-        initTheme();
-        await loadSettings();
+        const ok = await checkSession();
+        if (ok) {
+            await loadSettings();
+        }
     }
     
     init();

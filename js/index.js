@@ -1,5 +1,5 @@
 // ===============================================
-// INDEX.JS - PAGE PRINCIPALE
+// INDEX.JS - ADMINISTRATION
 // ===============================================
 
 (function() {
@@ -8,69 +8,93 @@
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let currentUserId  = null;
+    let currentUserId = null;
     let currentProducts = [];
-    let activeFilter   = 'all'; // 'all' ou nom de catégorie
+    let activeFilter = 'all';
+    let marketInfo = null;
 
-    const productsGrid     = document.getElementById('productsGrid');
-    const searchInput      = document.getElementById('searchInput');
-    const loadingModal     = document.getElementById('loadingModal');
+    // DOM elements
+    const productsGrid = document.getElementById('productsGrid');
+    const searchInput = document.getElementById('searchInput');
     const filtersContainer = document.getElementById('filtersContainer');
-    const filtersScroll    = document.getElementById('filtersScroll');
+    const filtersScroll = document.getElementById('filtersScroll');
+    const loadingModal = document.getElementById('loadingModal');
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    const mainContent = document.getElementById('mainContent');
+    const warningBanner = document.getElementById('warningBanner');
+    const warningMessage = document.getElementById('warningMessage');
+    const closeWarningBtn = document.getElementById('closeWarningBtn');
+    const mainHeader = document.getElementById('mainHeader');
 
     // ============================================
-    // UTILITAIRES
+    // VÉRIFICATION DES INFOS ADMIN
     // ============================================
-    function showLoading(msg = 'Chargement...') {
-        document.getElementById('modalStatus').textContent = msg;
-        loadingModal.style.display = 'flex';
+    function validateWhatsapp(number) {
+        if (!number) return false;
+        let clean = number.replace(/\D/g, '');
+        if (clean.startsWith('0')) clean = clean.substring(1);
+        if (!clean.startsWith('225')) clean = '225' + clean;
+        return clean.length === 13;
     }
 
-    function hideLoading() {
-        loadingModal.style.display = 'none';
+    function checkAdminInfoCompleteness() {
+        if (!marketInfo) return false;
+        
+        const isComplete = marketInfo.market_name && marketInfo.market_name.trim() !== '' &&
+            marketInfo.owner_name && marketInfo.owner_name.trim() !== '' &&
+            marketInfo.phone && marketInfo.phone.trim() !== '' &&
+            marketInfo.city && marketInfo.city.trim() !== '' &&
+            validateWhatsapp(marketInfo.whatsapp);
+        
+        return isComplete;
     }
 
-    function formatPrice(price) {
-        return new Intl.NumberFormat('fr-FR').format(price);
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function getMainImage(images) {
-        if (Array.isArray(images) && images.length > 0 && images[0]) return images[0];
-        return null;
-    }
-
-    // ============================================
-    // SESSION
-    // ============================================
-    async function checkSession() {
-        showLoading('Vérification session...');
-        try {
-            const { data: { session }, error } = await supabase.auth.getSession();
-            if (error) throw error;
-            if (!session) { window.location.href = 'auth.html'; return null; }
-            currentUserId = session.user.id;
-            hideLoading();
-            return session.user;
-        } catch (err) {
-            hideLoading();
-            window.location.href = 'auth.html';
-            return null;
+    function updateHeaderWarning() {
+        const isComplete = checkAdminInfoCompleteness();
+        
+        if (!isComplete) {
+            mainHeader.classList.add('warning-border');
+        } else {
+            mainHeader.classList.remove('warning-border');
+        }
+        
+        // Bannière WhatsApp uniquement
+        if (!marketInfo?.whatsapp || !validateWhatsapp(marketInfo.whatsapp)) {
+            const bannerClosed = localStorage.getItem('whatsapp_warning_closed');
+            if (!bannerClosed) {
+                warningBanner.style.display = 'flex';
+            } else {
+                warningBanner.style.display = 'none';
+            }
+        } else {
+            warningBanner.style.display = 'none';
         }
     }
 
+    closeWarningBtn.addEventListener('click', () => {
+        warningBanner.style.display = 'none';
+        localStorage.setItem('whatsapp_warning_closed', 'true');
+    });
+
     // ============================================
-    // CHARGEMENT PRODUITS
+    // CHARGEMENT DES DONNÉES
     // ============================================
+    async function loadMarketInfo() {
+        const { data, error } = await supabase
+            .from('markets')
+            .select('*')
+            .eq('id', currentUserId)
+            .single();
+        
+        if (!error && data) {
+            marketInfo = data;
+            updateHeaderWarning();
+        }
+    }
+
     async function loadProducts() {
         if (!currentUserId) return;
-        showLoading('Chargement produits...');
+        
         try {
             const { data, error } = await supabase
                 .from('products')
@@ -80,42 +104,46 @@
                 .order('created_at', { ascending: false });
 
             if (error) throw error;
+            
             currentProducts = data || [];
             buildFilters();
             displayProducts();
+            
+            // Animation terminée → afficher le contenu
+            loadingAnimation.classList.add('hide');
+            setTimeout(() => {
+                loadingAnimation.style.display = 'none';
+                mainContent.style.display = 'block';
+                filtersContainer.style.display = currentProducts.length > 0 ? 'block' : 'none';
+            }, 500);
+            
         } catch (err) {
-            productsGrid.innerHTML = `
-                <div class="empty-products">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <p>Erreur lors du chargement des produits</p>
-                </div>`;
-        } finally {
-            hideLoading();
+            console.error('Erreur chargement:', err);
+            loadingAnimation.classList.add('hide');
+            setTimeout(() => {
+                loadingAnimation.style.display = 'none';
+                mainContent.style.display = 'block';
+                productsGrid.innerHTML = `
+                    <div class="empty-products">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Erreur lors du chargement des produits</p>
+                    </div>
+                `;
+            }, 500);
         }
     }
 
-    // ============================================
-    // FILTRES CATÉGORIES
-    // Affichés seulement si au moins 1 produit a une catégorie
-    // ============================================
     function buildFilters() {
-        // Récupérer les catégories uniques présentes dans les produits
         const cats = [...new Set(
-            currentProducts
-                .map(p => p.category)
-                .filter(c => c && c.trim() !== '')
+            currentProducts.map(p => p.category).filter(c => c && c.trim() !== '')
         )].sort();
 
-        // Si aucune catégorie → cacher les filtres et partir
         if (cats.length === 0) {
             filtersContainer.style.display = 'none';
             return;
         }
 
-        // Afficher la barre de filtres
         filtersContainer.style.display = 'block';
-
-        // Construire les boutons : "Tout" + une catégorie par catégorie présente
         filtersScroll.innerHTML = '';
 
         const allBtn = document.createElement('button');
@@ -135,37 +163,27 @@
 
     function setFilter(cat) {
         activeFilter = cat;
-        // Mettre à jour les boutons actifs
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.classList.toggle('active',
-                (cat === 'all' && btn.textContent === 'Tout') ||
-                btn.textContent === cat
+                (cat === 'all' && btn.textContent === 'Tout') || btn.textContent === cat
             );
         });
         displayProducts();
     }
 
-    // ============================================
-    // AFFICHAGE PRODUITS
-    // ============================================
     function displayProducts() {
-        if (!productsGrid) return;
-
         const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
         let filtered = currentProducts;
 
-        // Filtre catégorie
         if (activeFilter !== 'all') {
             filtered = filtered.filter(p => p.category === activeFilter);
         }
 
-        // Filtre recherche
         if (searchTerm) {
             filtered = filtered.filter(p =>
                 (p.name && p.name.toLowerCase().includes(searchTerm)) ||
                 (p.price && p.price.toString().includes(searchTerm)) ||
-                (p.description && p.description.toLowerCase().includes(searchTerm)) ||
-                (p.category && p.category.toLowerCase().includes(searchTerm))
+                (p.description && p.description.toLowerCase().includes(searchTerm))
             );
         }
 
@@ -179,7 +197,7 @@
         }
 
         productsGrid.innerHTML = filtered.map(product => {
-            const mainImage  = getMainImage(product.images);
+            const mainImage = (product.images && product.images[0]) ? product.images[0] : null;
             const isInactive = product.active === false;
             const isFeatured = product.featured === true;
 
@@ -197,8 +215,7 @@
                 </div>`;
 
             return `
-                <div class="product-card ${isFeatured ? 'featured' : ''} ${isInactive ? 'inactive' : ''}"
-                     data-id="${product.id}">
+                <div class="product-card ${isFeatured ? 'featured' : ''} ${isInactive ? 'inactive' : ''}" data-id="${product.id}">
                     ${imageBlock}
                     <div class="product-info">
                         <div class="product-name">${escapeHtml(product.name)}</div>
@@ -207,7 +224,6 @@
                 </div>`;
         }).join('');
 
-        // Clics sur les cartes
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', () => {
                 window.location.href = `viewproduct.html?id=${card.getAttribute('data-id')}`;
@@ -215,21 +231,56 @@
         });
     }
 
+    function formatPrice(price) {
+        return new Intl.NumberFormat('fr-FR').format(price);
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     // ============================================
-    // RECHERCHE
+    // SESSION
     // ============================================
+    function showLoading(msg = 'Chargement...') {
+        const modalStatus = document.getElementById('modalStatus');
+        if (modalStatus) modalStatus.textContent = msg;
+        loadingModal.style.display = 'flex';
+    }
+
+    function hideLoading() {
+        loadingModal.style.display = 'none';
+    }
+
+    async function checkSession() {
+        showLoading('Vérification session...');
+        try {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error) throw error;
+            if (!session) { window.location.href = 'auth.html'; return null; }
+            currentUserId = session.user.id;
+            hideLoading();
+            return session.user;
+        } catch (err) {
+            hideLoading();
+            window.location.href = 'auth.html';
+            return null;
+        }
+    }
+
     function initSearch() {
         if (searchInput) {
             searchInput.addEventListener('input', () => displayProducts());
         }
     }
 
-    // ============================================
-    // INIT
-    // ============================================
     async function init() {
         const user = await checkSession();
         if (user) {
+            await loadMarketInfo();
             await loadProducts();
             initSearch();
         }
