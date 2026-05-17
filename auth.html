@@ -52,7 +52,7 @@
             <button id="doLoginBtn" class="btn-primary">Se connecter</button>
         </div>
 
-        <!-- INSCRIPTION (3 étapes : Email, Mot de passe, Pseudo) -->
+        <!-- INSCRIPTION (4 étapes : Email, Mot de passe, Pseudo, Nom du marché) -->
         <div id="registerForm" class="form-card">
             <!-- Étape 1 : Email -->
             <div id="step1" class="step active">
@@ -92,6 +92,16 @@
                 </div>
             </div>
 
+            <!-- Étape 4 : Nom du marché -->
+            <div id="step4" class="step">
+                <h2>Nom du marché</h2>
+                <div class="input-group">
+                    <i class="fas fa-store"></i>
+                    <input type="text" id="regMarketName" placeholder="Nom de votre marché">
+                </div>
+                <div class="info-note">Vous pourrez compléter les autres informations (téléphone, ville, WhatsApp, etc.) dans les paramètres après connexion.</div>
+            </div>
+
             <div class="step-nav">
                 <button id="prevBtn" class="step-btn prev">Précédent</button>
                 <button id="nextBtn" class="step-btn next">Suivant</button>
@@ -107,83 +117,6 @@
             </div>
             <button id="resetPasswordBtn" class="btn-primary">Envoyer</button>
             <a href="#" id="backToLoginLink" class="back-link">Retour</a>
-        </div>
-    </div>
-</div>
-
-<!-- WIZARD MARCHÉ (6 étapes - après connexion) -->
-<div id="marketWizard" class="wizard-overlay" style="display: none;">
-    <div class="wizard-container">
-        <div class="wizard-header">
-            <h2>Complétez les informations de votre marché</h2>
-            <div id="wizardProgress" class="wizard-progress">
-                <div class="wizard-progress-fill"></div>
-            </div>
-        </div>
-
-        <!-- Étape 1 : Informations marché -->
-        <div id="wizardStep1" class="wizard-step active">
-            <h3>Informations du marché</h3>
-            <div class="input-group">
-                <i class="fas fa-store"></i>
-                <input type="text" id="wizardMarketName" placeholder="Nom du marché">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="wizardOwnerName" placeholder="Nom du propriétaire">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-phone"></i>
-                <input type="tel" id="wizardPhone" placeholder="Numéro de téléphone">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input type="email" id="wizardPublicEmail" placeholder="Email public de communication">
-            </div>
-            <div class="input-group">
-                <i class="fas fa-map-marker-alt"></i>
-                <input type="text" id="wizardCity" placeholder="Ville / Localisation">
-            </div>
-        </div>
-
-        <!-- Étape 2 : Description (min 100 mots) -->
-        <div id="wizardStep2" class="wizard-step">
-            <h3>Description du marché</h3>
-            <div class="input-group textarea-group">
-                <i class="fas fa-align-left"></i>
-                <textarea id="wizardDescription" rows="5" placeholder="Décrivez votre marché (minimum 100 mots)"></textarea>
-            </div>
-            <div id="wizardWordCount" class="word-counter">0 / 100 mots</div>
-        </div>
-
-        <!-- Étape 3 : WhatsApp -->
-        <div id="wizardStep3" class="wizard-step">
-            <h3>Numéro WhatsApp</h3>
-            <div class="input-group">
-                <i class="fab fa-whatsapp"></i>
-                <input type="tel" id="wizardWhatsapp" placeholder="Numéro WhatsApp (bouton commander)">
-            </div>
-            <div class="info-note">Ce numéro apparaîtra sur chaque produit pour que les acheteurs vous contactent.</div>
-        </div>
-
-        <!-- Étape 4 : Récapitulatif -->
-        <div id="wizardStep4" class="wizard-step">
-            <h3>Récapitulatif</h3>
-            <div class="recap-box">
-                <p><strong>Nom du marché :</strong> <span id="recapMarketName"></span></p>
-                <p><strong>Propriétaire :</strong> <span id="recapOwnerName"></span></p>
-                <p><strong>Téléphone :</strong> <span id="recapPhone"></span></p>
-                <p><strong>Email public :</strong> <span id="recapPublicEmail"></span></p>
-                <p><strong>Ville :</strong> <span id="recapCity"></span></p>
-                <p><strong>WhatsApp commander :</strong> <span id="recapWhatsapp"></span></p>
-                <p><strong>Description :</strong> <span id="recapDescriptionPreview"></span></p>
-            </div>
-            <button id="confirmMarketBtn" class="btn-primary">Confirmer et accéder au marché</button>
-        </div>
-
-        <div class="wizard-nav">
-            <button id="wizardPrevBtn" class="step-btn prev">Précédent</button>
-            <button id="wizardNextBtn" class="step-btn next">Suivant</button>
         </div>
     </div>
 </div>

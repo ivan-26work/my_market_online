@@ -10,7 +10,8 @@
 </head>
 <body>
 
-    <header class="main-header">
+    <!-- HEADER -->
+    <header class="main-header" id="mainHeader">
         <div class="search-container">
             <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="Rechercher un produit, prix...">
@@ -20,21 +21,43 @@
         </a>
     </header>
 
-    <!-- Filtres catégories (masqué si aucune catégorie) -->
+    <!-- BANNIÈRE D'AVERTISSEMENT (supprimable) -->
+    <div id="warningBanner" class="warning-banner" style="display: none;">
+        <div class="warning-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="warningMessage">Votre numéro WhatsApp est invalide ou manquant. Les clients ne pourront pas vous contacter.</span>
+        </div>
+        <button id="closeWarningBtn" class="warning-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- ANIMATION DE CHARGEMENT CENTRÉE -->
+    <div id="loadingAnimation" class="loading-animation">
+        <div class="loader-icon">
+            <i class="fas fa-store"></i>
+        </div>
+        <p>Chargement de votre marché...</p>
+    </div>
+
+    <!-- FILTRES CATÉGORIES -->
     <div class="filters-container" id="filtersContainer" style="display:none;">
         <div class="filters-scroll" id="filtersScroll"></div>
     </div>
 
-    <main class="main-content">
+    <!-- GRILLE PRODUITS (cachée au départ) -->
+    <main class="main-content" id="mainContent" style="display: none;">
         <div id="productsGrid" class="products-grid"></div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="main-footer">
         <a href="createproduct.html" class="fab-btn">
             <i class="fas fa-plus"></i>
         </a>
     </footer>
 
+    <!-- MODALE CHARGEMENT -->
     <div id="loadingModal" class="modal-loading" style="display: none;">
         <div class="modal-card">
             <div class="spinner"></div>
