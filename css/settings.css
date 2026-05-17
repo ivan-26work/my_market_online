@@ -24,7 +24,7 @@ body {
     border: 1px solid #2a3a4a;
     height: 60px;
     margin: 16px 16px 0 16px;
-    padding: 0 16px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,13 +43,13 @@ body {
     gap: 8px;
     text-decoration: none;
     font-size: 0.85rem;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .back-btn:hover {
     background: #5a9eff;
     color: white;
-    border-color: #5a9eff;
+    transform: translateX(-4px);
 }
 
 .main-header h3 {
@@ -70,14 +70,35 @@ body {
     justify-content: center;
     cursor: pointer;
     color: #eef2ff;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     text-decoration: none;
 }
 
 .stats-btn:hover {
     background: #5a9eff;
     color: white;
-    border-color: #5a9eff;
+    transform: scale(1.05);
+}
+
+/* ============================================
+   BANNIÈRE DE RAPPEL
+   ============================================ */
+.reminder-banner {
+    background: #1a1a2e;
+    border: 1px solid #5a9eff;
+    border-radius: 16px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: #5a9eff;
+    animation: fadeInUp 0.4s ease;
+}
+
+.reminder-banner i {
+    font-size: 1.2rem;
 }
 
 /* ============================================
@@ -95,9 +116,15 @@ body {
 .settings-section {
     background: #0e1a26;
     border: 1px solid #2a3a4a;
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 20px;
     margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.settings-section:hover {
+    border-color: #5a9eff;
+    transform: translateY(-2px);
 }
 
 .settings-section h4 {
@@ -115,49 +142,71 @@ body {
    ============================================ */
 .avatar-section {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+    justify-content: center;
 }
 
-.avatar-section img {
+.avatar-wrap {
+    position: relative;
     width: 100px;
     height: 100px;
+    cursor: pointer;
+}
+
+.avatar-wrap img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #5a9eff;
+    border: 3px solid #5a9eff;
+    transition: all 0.3s ease;
 }
 
-.btn-small {
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
-    border-radius: 30px;
-    padding: 8px 20px;
-    cursor: pointer;
-    color: #eef2ff;
-    font-size: 0.8rem;
-    transition: all 0.2s;
+.avatar-wrap:hover img {
+    transform: scale(1.05);
+    filter: brightness(0.8);
 }
 
-.btn-small:hover {
+.avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
     background: #5a9eff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
-    border-color: #5a9eff;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.avatar-wrap:hover .avatar-overlay {
+    opacity: 1;
 }
 
 /* ============================================
    FORMULAIRES
    ============================================ */
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 0.8rem;
     font-weight: 600;
     color: #8a9aaa;
+}
+
+.required-badge {
+    color: #ffaa44;
+    font-size: 0.7rem;
+    font-weight: normal;
 }
 
 .form-group input, .form-group textarea {
@@ -170,16 +219,33 @@ body {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.3s ease;
 }
 
 .form-group input:focus, .form-group textarea:focus {
     border-color: #5a9eff;
+    transform: scale(1.01);
+    box-shadow: 0 0 0 2px rgba(90, 158, 255, 0.2);
 }
 
 .form-group input:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+.form-group.warning input {
+    border-color: #ffaa44;
+}
+
+/* ============================================
+   COMPTEURS ET INDICATEURS
+   ============================================ */
+.word-counter {
+    text-align: right;
+    font-size: 0.7rem;
+    color: #8a9aaa;
+    margin-top: 5px;
+    transition: color 0.3s ease;
 }
 
 .char-counter {
@@ -189,95 +255,63 @@ body {
     margin-top: 5px;
 }
 
-/* ============================================
-   TOGGLE
-   ============================================ */
-.toggle-group {
+.warning-text {
+    font-size: 0.65rem;
+    color: #ffaa44;
+    margin-top: 6px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-}
-
-.toggle-label {
-    font-weight: 600;
-    color: #eef2ff;
-    font-size: 0.9rem;
-}
-
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 54px;
-    height: 30px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.toggle-switch input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.toggle-slider {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #2a3a4a;
-    border-radius: 34px;
-    transition: background-color 0.3s;
-    z-index: 1;
-}
-
-.toggle-slider::before {
-    content: "";
-    position: absolute;
-    height: 22px;
-    width: 22px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: transform 0.3s;
-}
-
-.toggle-switch input[type="checkbox"]:checked + .toggle-slider {
-    background-color: #4ade80;
-}
-
-.toggle-switch input[type="checkbox"]:checked + .toggle-slider::before {
-    transform: translateX(24px);
+    gap: 6px;
 }
 
 /* ============================================
-   TYPE GROUP (message)
+   VALIDATEUR WHATSAPP
    ============================================ */
-.type-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-
-.type-btn {
-    flex: 1;
-    padding: 10px;
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
-    border-radius: 30px;
-    cursor: pointer;
-    color: #8a9aaa;
-    font-weight: 600;
+.whatsapp-validator {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
     font-size: 0.8rem;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
-.type-btn.active {
-    background: #5a9eff;
-    border-color: #5a9eff;
-    color: white;
+.whatsapp-validator.success {
+    background: #1a2a1a;
+    border-left: 3px solid #4ade80;
+    color: #4ade80;
+}
+
+.whatsapp-validator.error {
+    background: #2a1a1a;
+    border-left: 3px solid #ff4d4d;
+    color: #ff4d4d;
+}
+
+.validator-hint {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+.validator-link {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    word-break: break-all;
+}
+
+.validator-link a {
+    color: #4ade80;
+    text-decoration: none;
+}
+
+.validator-link a:hover {
+    text-decoration: underline;
+}
+
+.input-hint {
+    font-size: 0.65rem;
+    color: #8a9aaa;
+    margin-top: 5px;
 }
 
 /* ============================================
@@ -293,7 +327,7 @@ body {
     font-weight: 700;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +336,7 @@ body {
 
 .btn-send:hover {
     background: #22c55e;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -314,13 +348,13 @@ body {
     color: #eef2ff;
     font-weight: 500;
     margin-right: 12px;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
     background: #5a9eff;
     color: white;
-    border-color: #5a9eff;
+    transform: translateY(-2px);
 }
 
 .btn-danger {
@@ -331,12 +365,13 @@ body {
     cursor: pointer;
     color: #ff4d4d;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .btn-danger:hover {
     background: #ff4d4d;
     color: white;
+    transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -347,11 +382,12 @@ body {
     cursor: pointer;
     color: white;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
     background: #3a7ecc;
+    transform: translateY(-2px);
 }
 
 .save-all {
@@ -360,46 +396,7 @@ body {
 }
 
 /* ============================================
-   THEME GROUP
-   ============================================ */
-.theme-group {
-    display: flex;
-    gap: 12px;
-}
-
-.theme-btn {
-    flex: 1;
-    padding: 10px;
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
-    border-radius: 30px;
-    cursor: pointer;
-    color: #eef2ff;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.theme-btn.active {
-    background: #5a9eff;
-    border-color: #5a9eff;
-    color: white;
-}
-
-/* ============================================
-   INFO NOTE
-   ============================================ */
-.info-note {
-    background: #1a2a3a;
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 0.7rem;
-    color: #8a9aaa;
-    margin-top: 12px;
-    text-align: center;
-}
-
-/* ============================================
-   TOAST
+   TOAST NOTIFICATION
    ============================================ */
 .toast {
     position: fixed;
@@ -409,8 +406,8 @@ body {
     background: #1a2a3a;
     color: #eef2ff;
     padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.9rem;
+    border-radius: 60px;
+    font-size: 0.85rem;
     font-weight: 500;
     border: 1px solid #2a3a4a;
     opacity: 0;
@@ -425,16 +422,25 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
-.toast.success { border-color: #4ade80; color: #4ade80; }
-.toast.error   { border-color: #ff4d4d; color: #ff4d4d; }
+.toast.success {
+    border-color: #4ade80;
+    color: #4ade80;
+}
+
+.toast.error {
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}
 
 /* ============================================
    MODAL LOADING
    ============================================ */
 .modal-loading {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(4px);
     display: flex;
@@ -461,7 +467,20 @@ body {
     animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* ============================================
    RESPONSIVE
@@ -470,6 +489,7 @@ body {
     .main-header {
         height: 50px;
         margin: 12px 12px 0 12px;
+        padding: 0 15px;
     }
 
     .back-btn {
@@ -486,41 +506,20 @@ body {
         padding: 16px;
     }
 
-    .type-group, .theme-group {
-        flex-wrap: wrap;
-    }
-
     .btn-secondary, .btn-danger {
         width: 100%;
         margin-bottom: 10px;
         margin-right: 0;
     }
-}
-/* Validator box */
-.validator-box {
-    margin-top: 12px;
-    padding: 12px 16px;
-    border-radius: 14px;
-    font-size: 0.85rem;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: all 0.3s ease;
-}
 
-.validator-box.success {
-    background: #1a2a1a;
-    border-left: 4px solid #4ade80;
-    color: #4ade80;
-}
+    .avatar-wrap {
+        width: 80px;
+        height: 80px;
+    }
 
-.validator-box.error {
-    background: #2a1a1a;
-    border-left: 4px solid #ff4d4d;
-    color: #ff4d4d;
-}
-
-.validator-hint {
-    font-size: 0.7rem;
-    opacity: 0.8;
+    .avatar-overlay {
+        width: 24px;
+        height: 24px;
+        font-size: 0.65rem;
+    }
 }

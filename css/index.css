@@ -23,11 +23,17 @@ body {
     border: 1px solid #2a3a4a;
     height: 60px;
     margin: 16px 16px 0 16px;
-    padding: 0 16px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.main-header.warning-border {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 0 1px rgba(255, 77, 77, 0.3);
 }
 
 .search-container {
@@ -80,6 +86,123 @@ body {
 .icon-btn:hover {
     background: #5a9eff;
     color: white;
+    transform: scale(1.05);
+}
+
+/* ============================================
+   BANNIÈRE D'AVERTISSEMENT
+   ============================================ */
+.warning-banner {
+    margin: 16px 16px 0 16px;
+    background: #2a1a1a;
+    border: 1px solid #ff4d4d;
+    border-radius: 16px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    animation: slideDown 0.4s ease;
+}
+
+.warning-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    color: #ff4d4d;
+    font-size: 0.85rem;
+}
+
+.warning-content i {
+    font-size: 1.2rem;
+}
+
+.warning-close {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px;
+    transition: all 0.2s;
+}
+
+.warning-close:hover {
+    transform: scale(1.1);
+    color: #ffffff;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   ANIMATION DE CHARGEMENT CENTRÉE
+   ============================================ */
+.loading-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0a0f1a;
+    z-index: 200;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading-animation.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-icon {
+    margin-bottom: 24px;
+}
+
+.loader-icon i {
+    font-size: 5rem;
+    animation: storePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes storePulse {
+    0% {
+        color: #5a9eff;
+        text-shadow: 0 0 0px #5a9eff;
+        transform: scale(1);
+    }
+    50% {
+        color: #ff4d4d;
+        text-shadow: 0 0 10px #ff4d4d;
+        transform: scale(1.1);
+    }
+    100% {
+        color: #5a9eff;
+        text-shadow: 0 0 0px #5a9eff;
+        transform: scale(1);
+    }
+}
+
+.loading-animation p {
+    font-size: 0.9rem;
+    color: #8a9aaa;
+    animation: textPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 /* ============================================
@@ -114,12 +237,12 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
-    font-family: 'DM Sans', sans-serif;
 }
 
 .filter-btn:hover {
     border-color: #5a9eff;
     color: #5a9eff;
+    transform: translateY(-2px);
 }
 
 .filter-btn.active {
@@ -129,16 +252,25 @@ body {
 }
 
 /* ============================================
-   CONTENU
+   GRILLE PRODUITS
    ============================================ */
 .main-content {
     padding: 16px 16px;
     padding-bottom: 90px;
+    animation: fadeInUp 0.4s ease;
 }
 
-/* ============================================
-   GRILLE PRODUITS
-   ============================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -154,16 +286,21 @@ body {
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
 .product-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     border-color: #5a9eff;
+    box-shadow: 0 8px 25px rgba(90, 158, 255, 0.15);
 }
 
-/* Produit À LA UNE */
+.product-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
 .product-card.featured {
     border: 2px solid #ffaa44;
 }
@@ -181,9 +318,23 @@ body {
     z-index: 3;
 }
 
-/* ============================================
-   IMAGE PRODUIT
-   ============================================ */
+.product-card.inactive {
+    border-color: #3a1a1a;
+}
+
+.product-card.inactive .product-image {
+    filter: grayscale(60%) brightness(0.5);
+}
+
+.product-card.inactive .product-price {
+    color: #ff4d4d;
+    text-decoration: line-through;
+}
+
+.product-card.inactive .product-name {
+    color: #8a9aaa;
+}
+
 .product-image-wrap {
     position: relative;
     width: 100%;
@@ -197,7 +348,11 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: filter 0.3s;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.08);
 }
 
 .product-image-placeholder {
@@ -210,7 +365,6 @@ body {
     font-size: 2rem;
 }
 
-/* Overlay masqué sur l'image quand désactivé */
 .image-hidden-overlay {
     position: absolute;
     inset: 0;
@@ -226,20 +380,14 @@ body {
 .image-hidden-overlay i {
     font-size: 1.4rem;
     color: #ff4d4d;
-    opacity: 0.9;
 }
 
 .image-hidden-overlay span {
     font-size: 0.6rem;
     color: #ff4d4d;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
-/* ============================================
-   INFOS PRODUIT
-   ============================================ */
 .product-info {
     padding: 8px 10px 10px;
 }
@@ -251,64 +399,12 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #eef2ff;
 }
 
 .product-price {
     font-weight: 700;
     color: #5a9eff;
     font-size: 0.8rem;
-}
-
-/* ============================================
-   PRODUIT DÉSACTIVÉ
-   ============================================ */
-.product-card.inactive .product-image {
-    filter: grayscale(60%) brightness(0.5);
-}
-
-.product-card.inactive .product-price {
-    color: #ff4d4d;
-    text-decoration: line-through;
-    text-decoration-color: #ff4d4d;
-    text-decoration-thickness: 2px;
-    opacity: 0.85;
-}
-
-.product-card.inactive .product-name {
-    color: #8a9aaa;
-}
-
-.product-card.inactive {
-    border-color: #3a1a1a;
-}
-
-.product-card.inactive:hover {
-    border-color: rgba(255, 77, 77, 0.3);
-}
-
-/* ============================================
-   ÉTAT VIDE
-   ============================================ */
-.empty-products {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 40px 20px;
-    background: #0e1a26;
-    border-radius: 16px;
-    border: 1px solid #2a3a4a;
-    color: #8a9aaa;
-}
-
-.empty-products i {
-    font-size: 2.5rem;
-    margin-bottom: 12px;
-    display: block;
-    color: #2a3a4a;
-}
-
-.empty-products p {
-    font-size: 0.9rem;
 }
 
 /* ============================================
@@ -344,12 +440,34 @@ body {
 }
 
 /* ============================================
+   ÉTAT VIDE
+   ============================================ */
+.empty-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    background: #0e1a26;
+    border-radius: 16px;
+    border: 1px solid #2a3a4a;
+    color: #8a9aaa;
+}
+
+.empty-products i {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+    color: #2a3a4a;
+}
+
+/* ============================================
    MODAL LOADING
    ============================================ */
 .modal-loading {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(4px);
     display: flex;
@@ -376,7 +494,9 @@ body {
     animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 /* ============================================
    RESPONSIVE
@@ -397,4 +517,5 @@ body {
     .product-name { font-size: 0.75rem; }
     .product-price { font-size: 0.75rem; }
     .filter-btn { font-size: 0.75rem; padding: 6px 14px; }
+    .loader-icon i { font-size: 3.5rem; }
 }
