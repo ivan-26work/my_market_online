@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Envoi d'e-mails - Megane Market</title>
+    <title>Envoi d'e-mail - Megane Market</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -16,125 +16,145 @@
 
         body {
             font-family: 'DM Sans', sans-serif;
-            background: #0a0f1a;
-            color: #eef2ff;
+            background: #f0f2f5;
+            color: #1a2a3a;
             min-height: 100vh;
-            padding: 20px;
+            padding-top: 80px;
+            padding-bottom: 80px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header */
+        /* ============ HEADER FIXE ============ */
         .main-header {
-            background: #0e1a26;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+            background: white;
             border-radius: 60px;
-            border: 1px solid #2a3a4a;
             height: 60px;
-            margin-bottom: 24px;
-            padding: 0 24px;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            border: 1px solid #e8ecf0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
-        .logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #5a9eff;
+        .logo-area {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .back-btn {
-            background: #1a2a3a;
-            border: 1px solid #2a3a4a;
-            border-radius: 40px;
-            padding: 8px 20px;
-            cursor: pointer;
-            color: #eef2ff;
-            text-decoration: none;
-            transition: all 0.2s;
+        .logo-area i {
+            font-size: 1.2rem;
+            color: #5a9eff;
         }
 
-        .back-btn:hover {
-            background: #5a9eff;
-            color: white;
+        .logo-area span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a2a3a;
         }
 
-        /* Sections */
-        .section {
-            background: #0e1a26;
-            border: 1px solid #2a3a4a;
-            border-radius: 24px;
-            margin-bottom: 24px;
-            overflow: hidden;
-        }
-
-        .section-header {
-            padding: 16px 24px;
-            background: #1a2a3a;
-            border-bottom: 1px solid #2a3a4a;
+        .header-actions {
             display: flex;
-            align-items: center;
             gap: 12px;
         }
 
-        .section-header i {
-            font-size: 1.3rem;
-        }
-
-        .section-header h3 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .section-body {
-            padding: 20px 24px;
-        }
-
-        .section-tip {
-            background: #1a1a2e;
-            border-left: 3px solid #5a9eff;
-            padding: 12px 16px;
-            margin-top: 16px;
-            border-radius: 12px;
+        .header-btn {
+            background: #f0f2f5;
+            border: 1px solid #d0d5dd;
+            border-radius: 40px;
+            padding: 8px 16px;
+            cursor: pointer;
+            color: #1a2a3a;
+            text-decoration: none;
+            font-weight: 500;
             font-size: 0.8rem;
-            color: #8a9aaa;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-btn:hover {
+            background: #5a9eff;
+            color: white;
+            border-color: #5a9eff;
+        }
+
+        /* ============ MAIN CONTENT ============ */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============ CARTES ============ */
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid #e8ecf0;
+        }
+
+        .card-header {
+            padding: 18px 24px;
+            background: white;
+            border-bottom: 2px solid #e8ecf0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a2a3a;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .section-tip i {
+        .card-header h3 i {
             color: #5a9eff;
         }
 
-        /* Clients */
+        .card-body {
+            padding: 24px;
+        }
+
+        /* ============ LISTE CLIENTS ============ */
         .client-list {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
+            border: 1px solid #e8ecf0;
+            border-radius: 16px;
+            background: #fafbfc;
         }
 
         .client-item {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 12px;
-            border-bottom: 1px solid #1a2a3a;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e8ecf0;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .client-item:hover {
-            background: rgba(90, 158, 255, 0.1);
+            background: #f0f2f5;
         }
 
         .client-item.selected {
-            background: rgba(90, 158, 255, 0.15);
+            background: rgba(90, 158, 255, 0.1);
             border-left: 3px solid #5a9eff;
         }
 
@@ -142,7 +162,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: #1a2a3a;
+            background: #e8ecf0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -156,56 +176,44 @@
 
         .client-name {
             font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            color: #1a2a3a;
         }
 
         .client-email {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #8a9aaa;
         }
 
         .client-check {
             color: #4ade80;
-            font-size: 1.1rem;
         }
 
-        .select-all-btn {
-            background: #5a9eff;
-            border: none;
-            border-radius: 30px;
-            padding: 6px 16px;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .select-all-btn:hover {
-            background: #3a7ecc;
-        }
-
-        /* Formulaires */
+        /* ============ FORMULAIRES ============ */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-size: 0.8rem;
             font-weight: 600;
-            color: #8a9aaa;
+            color: #1a2a3a;
+            font-size: 0.85rem;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: #5a9eff;
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
             padding: 12px 16px;
-            background: #1a2a3a;
-            border: 1px solid #2a3a4a;
-            border-radius: 16px;
-            color: #eef2ff;
+            background: #fafbfc;
+            border: 1px solid #d0d5dd;
+            border-radius: 12px;
+            color: #1a2a3a;
             font-family: 'DM Sans', sans-serif;
             font-size: 0.9rem;
             outline: none;
@@ -214,104 +222,115 @@
 
         .form-group input:focus, .form-group textarea:focus {
             border-color: #5a9eff;
+            box-shadow: 0 0 0 3px rgba(90, 158, 255, 0.1);
         }
 
-        /* Couleurs Google */
-        .label-blue {
-            color: #5a9eff;
-        }
-        .label-green {
-            color: #4ade80;
-        }
-        .label-red {
-            color: #ff4d4d;
-        }
-
-        /* Templates */
-        .templates-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .template-btn {
-            background: #1a2a3a;
-            border: 1px solid #2a3a4a;
-            border-radius: 40px;
-            padding: 8px 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #eef2ff;
-        }
-
-        .template-btn:hover {
-            border-color: #5a9eff;
-            color: #5a9eff;
-        }
-
-        /* Image preview */
         .image-preview {
             margin-top: 12px;
             max-width: 100%;
             max-height: 150px;
             border-radius: 12px;
-            display: none;
+            display: block;
             object-fit: cover;
+            border: 1px solid #d0d5dd;
         }
 
-        /* Bouton envoi */
+        .tip {
+            background: #e8f4e8;
+            border-left: 4px solid #4ade80;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #2e7d32;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ============ FOOTER FIXE ============ */
+        .main-footer {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background: white;
+            border-radius: 60px;
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            border: 1px solid #e8ecf0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-counter {
+            background: #f0f2f5;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1a2a3a;
+        }
+
+        .footer-counter span {
+            color: #5a9eff;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
         .btn-send {
-            width: 100%;
-            padding: 16px;
-            background: #4ade80;
+            background: #ff4d4d;
             border: none;
             border-radius: 40px;
-            color: #1a2a3a;
-            font-weight: 700;
-            font-size: 1rem;
+            padding: 8px 24px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn-send:hover {
-            background: #22c55e;
+            background: #d63030;
             transform: translateY(-2px);
         }
 
         .btn-send:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
-        .selected-info {
-            margin-top: 16px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #8a9aaa;
+        .btn-send.animate {
+            animation: pulse 0.5s ease;
         }
 
-        /* Toast */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* ============ TOAST ============ */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 90px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             background: #1a2a3a;
-            color: #eef2ff;
-            padding: 12px 24px;
-            border-radius: 60px;
-            font-size: 0.85rem;
-            border: 1px solid #2a3a4a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
             opacity: 0;
             transition: all 0.3s ease;
-            z-index: 1000;
+            z-index: 1100;
         }
 
         .toast.show {
@@ -320,179 +339,160 @@
         }
 
         .toast.success {
-            border-color: #4ade80;
-            color: #4ade80;
+            background: #4ade80;
+            color: #1a2a3a;
         }
 
         .toast.error {
-            border-color: #ff4d4d;
-            color: #ff4d4d;
+            background: #ff4d4d;
         }
 
         .loader {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid #1a2a3a;
-            border-top-color: #5a9eff;
+            border: 2px solid white;
+            border-top-color: transparent;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.6s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #8a9aaa;
+        .select-all-btn {
+            background: #5a9eff;
+            border: none;
+            border-radius: 30px;
+            padding: 6px 16px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .select-all-btn:hover {
+            background: #3a7ecc;
+        }
+
+        @media (max-width: 768px) {
+            .main-header, .main-footer {
+                left: 12px;
+                right: 12px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-counter {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+            .btn-send {
+                padding: 6px 16px;
+                font-size: 0.75rem;
+            }
+            .header-btn span {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+    <!-- HEADER FIXE -->
     <header class="main-header">
-        <div class="logo">
-            <i class="fas fa-envelope"></i> Envoi d'e-mails
+        <div class="logo-area">
+            <i class="fas fa-envelope"></i>
+            <span>Envoyer un e-mail</span>
         </div>
-        <a href="settings.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Retour
-        </a>
+        <div class="header-actions">
+            <a href="settings.html" class="header-btn">
+                <i class="fas fa-arrow-left"></i> <span>Retour</span>
+            </a>
+        </div>
     </header>
 
-    <!-- SECTION 1 : SÉLECTION DES CLIENTS -->
-    <div class="section">
-        <div class="section-header">
-            <i class="fas fa-users" style="color: #5a9eff;"></i>
-            <h3>1. Sélection des clients</h3>
-            <div style="flex:1;"></div>
-            <button id="selectAllBtn" class="select-all-btn">Tout sélectionner</button>
-        </div>
-        <div class="section-body">
-            <div id="clientList" class="client-list">
-                <div class="empty-state">Chargement des clients...</div>
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- Carte 1 : Sélection des clients -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-users"></i> Vos clients</h3>
             </div>
-            <div class="section-tip">
-                <i class="fas fa-lightbulb"></i>
-                <span>Conseil : Sélectionnez les clients qui correspondent à votre message. Une newsletter concerne tous les clients, une promotion uniquement certains.</span>
+            <div class="card-body">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <button id="selectAllBtn" class="select-all-btn">✅ Tout sélectionner</button>
+                </div>
+                <div id="clientList" class="client-list">
+                    <div class="tip">Chargement des clients...</div>
+                </div>
+                <div class="tip">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Sélectionnez les clients qui recevront votre message.</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- SECTION 2 : INFORMATIONS DE L'E-MAIL -->
-    <div class="section">
-        <div class="section-header">
-            <i class="fas fa-pen" style="color: #4ade80;"></i>
-            <h3>2. Informations de l'e-mail</h3>
-        </div>
-        <div class="section-body">
-            <div class="form-group">
-                <label class="label-blue"><i class="fas fa-user"></i> De (expéditeur)</label>
-                <input type="text" id="fromName" value="Megane Market" placeholder="Votre nom ou boutique">
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Le nom qui apparaîtra dans la boîte de réception du client.</span>
-                </div>
+        <!-- Carte 2 : Informations de l'e-mail -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-edit"></i> Informations de l'e-mail</h3>
             </div>
-            <div class="form-group">
-                <label class="label-green"><i class="fas fa-tag"></i> Sujet</label>
-                <input type="text" id="emailSubject" placeholder="Ex: Nouveaux produits sur Megane Market">
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Un sujet accrocheur augmente le taux d'ouverture. Ex: "🎉 Nouveautés : -20% sur toute la boutique"</span>
+            <div class="card-body">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Sujet</label>
+                    <input type="text" id="emailSubject" placeholder="Ex: Nouveauté sur mon marché">
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="label-red"><i class="fas fa-comment"></i> Message</label>
-                <textarea id="emailMessage" rows="4" placeholder="Écrivez votre message ici..."></textarea>
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Soyez concis et engageant. 2-3 phrases maximum. Personnalisez avec le prénom du client si possible.</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- SECTION 3 : MÉDIA (OPTIONNEL) -->
-    <div class="section">
-        <div class="section-header">
-            <i class="fas fa-image" style="color: #ffaa44;"></i>
-            <h3>3. Média (optionnel)</h3>
+                <div class="form-group">
+                    <label><i class="fas fa-comment"></i> Message</label>
+                    <textarea id="emailMessage" rows="5" placeholder="Bonjour,&#10;&#10;Je vous informe que..."></textarea>
+                </div>
+            </div>
         </div>
-        <div class="section-body">
-            <div class="form-group">
-                <label>📷 URL de l'image</label>
-                <input type="text" id="imageUrl" placeholder="https://exemple.com/image.jpg">
-                <img id="imagePreview" class="image-preview" src="" alt="Aperçu">
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Une image attire l'attention. Idéal : photo du produit, bannière promotionnelle.</span>
-                </div>
+
+        <!-- Carte 3 : Personnalisation -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-palette"></i> Personnalisation</h3>
             </div>
-            <div class="form-group">
-                <label>🔗 URL du bouton</label>
-                <input type="text" id="buttonUrl" value="https://emcsigvlopntwbfkkjkh.supabase.co/functions/v1/market.html" placeholder="https://ton-site.com/market.html">
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Redirige vers votre boutique ou une offre spécifique.</span>
+            <div class="card-body">
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> Image (optionnel)</label>
+                    <input type="text" id="imageUrl" placeholder="https://exemple.com/image.jpg">
+                    <img id="imagePreview" class="image-preview" src="" alt="Aperçu">
                 </div>
-            </div>
-            <div class="form-group">
-                <label>🔘 Texte du bouton</label>
-                <input type="text" id="buttonText" value="Découvrir les produits" placeholder="Découvrir">
-                <div class="section-tip" style="margin-top: 8px;">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Action claire : "Découvrir", "Profiter", "Voir l'offre".</span>
+
+                <div class="form-group">
+                    <label><i class="fas fa-link"></i> Bouton d'appel à l'action</label>
+                    <input type="text" id="buttonText" placeholder="Texte du bouton" value="Découvrir">
+                    <input type="text" id="buttonUrl" placeholder="https://..." value="https://emcsigvlopntwbfkkjkh.supabase.co/functions/v1/market.html" style="margin-top: 8px;">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-reply"></i> Email de réponse</label>
+                    <input type="email" id="replyTo" placeholder="votre@email.com">
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SECTION 4 : TEMPLETS RAPIDES -->
-    <div class="section">
-        <div class="section-header">
-            <i class="fas fa-copy" style="color: #5a9eff;"></i>
-            <h3>4. Templates rapides</h3>
+    <!-- FOOTER FIXE -->
+    <footer class="main-footer">
+        <div class="footer-counter">
+            <i class="fas fa-users"></i> <span id="selectedCount">0</span> client(s)
         </div>
-        <div class="section-body">
-            <div class="templates-row">
-                <button class="template-btn" data-template="promo">🎉 Offre promotionnelle</button>
-                <button class="template-btn" data-template="new_product">🆕 Nouveau produit</button>
-                <button class="template-btn" data-template="newsletter">📰 Newsletter</button>
-                <button class="template-btn" data-template="custom">✏️ Personnalisé</button>
-            </div>
-            <div class="section-tip">
-                <i class="fas fa-lightbulb"></i>
-                <span>Cliquez sur un template pour pré-remplir le sujet et le message. Vous pouvez ensuite les modifier.</span>
-            </div>
-        </div>
-    </div>
+        <button id="sendEmailBtn" class="btn-send">
+            <i class="fas fa-paper-plane"></i> Envoyer
+        </button>
+    </footer>
 
-    <!-- SECTION 5 : ENVOI -->
-    <div class="section">
-        <div class="section-header">
-            <i class="fas fa-paper-plane" style="color: #4ade80;"></i>
-            <h3>5. Envoi</h3>
-        </div>
-        <div class="section-body">
-            <button id="sendEmailBtn" class="btn-send">
-                <i class="fas fa-paper-plane"></i> ENVOYER LE MESSAGE
-            </button>
-            <div id="selectedInfo" class="selected-info">0 client sélectionné</div>
-            <div class="section-tip">
-                <i class="fas fa-shield-alt"></i>
-                <span>Les e-mails sont envoyés via EmailJS. Les clients ne verront pas votre adresse personnelle.</span>
-            </div>
-        </div>
-    </div>
-</div>
+    <div id="toast" class="toast"></div>
 
-<div id="toast" class="toast"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
     (function() {
         const SUPABASE_URL = 'https://emcsigvlopntwbfkkjkh.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtY3NpZ3Zsb3BudHdiZmtramtoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4ODE5MTgsImV4cCI6MjA5NDQ1NzkxOH0.YwYoV-azL3WEFtHoh4yoF7xTLrOwZILKCzJrGPsCs6I';
@@ -508,20 +508,22 @@
 
         let allClients = [];
         let selectedClients = new Set();
+        let currentUserId = null;
 
         const clientListEl = document.getElementById('clientList');
-        const selectedInfo = document.getElementById('selectedInfo');
+        const selectedCountSpan = document.getElementById('selectedCount');
         const sendBtn = document.getElementById('sendEmailBtn');
         const subjectInput = document.getElementById('emailSubject');
         const messageInput = document.getElementById('emailMessage');
-        const fromNameInput = document.getElementById('fromName');
+        const replyToInput = document.getElementById('replyTo');
         const imageUrlInput = document.getElementById('imageUrl');
         const imagePreview = document.getElementById('imagePreview');
         const buttonUrlInput = document.getElementById('buttonUrl');
         const buttonTextInput = document.getElementById('buttonText');
-        const toastEl = document.getElementById('toast');
         const selectAllBtn = document.getElementById('selectAllBtn');
+        const toastEl = document.getElementById('toast');
 
+        // Aperçu image
         imageUrlInput.addEventListener('input', () => {
             const url = imageUrlInput.value.trim();
             if (url) {
@@ -538,38 +540,48 @@
             setTimeout(() => toastEl.classList.remove('show'), 4000);
         }
 
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                window.location.href = 'auth.html';
+                return false;
+            }
+            currentUserId = session.user.id;
+            return true;
+        }
+
         async function loadClients() {
             try {
                 const { data, error } = await supabase
                     .from('buyers')
-                    .select('id, full_name, email, city, created_at')
+                    .select('id, full_name, email, city')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-
                 allClients = data || [];
                 renderClientList();
             } catch (err) {
                 console.error('Erreur chargement clients:', err);
-                clientListEl.innerHTML = `<div class="empty-state">Erreur chargement des clients</div>`;
+                clientListEl.innerHTML = `<div class="tip">Erreur chargement des clients</div>`;
             }
         }
 
         function renderClientList() {
             if (allClients.length === 0) {
-                clientListEl.innerHTML = `<div class="empty-state">Aucun client trouvé</div>`;
+                clientListEl.innerHTML = `<div class="tip">Aucun client trouvé</div>`;
+                updateSelectedCount();
                 return;
             }
 
             clientListEl.innerHTML = allClients.map(client => `
-                <div class="client-item" data-id="${client.id}">
+                <div class="client-item ${selectedClients.has(client.id) ? 'selected' : ''}" data-id="${client.id}">
                     <div class="client-avatar">
-                        <i class="fas fa-user-circle"></i>
+                        <i class="fas fa-user"></i>
                     </div>
                     <div class="client-info">
                         <div class="client-name">${escapeHtml(client.full_name || 'Client')}</div>
                         <div class="client-email">${escapeHtml(client.email || '-')}</div>
-                        <div style="font-size: 0.7rem; color: #6a8aaa;">${escapeHtml(client.city || 'Ville non renseignée')}</div>
+                        ${client.city ? `<div style="font-size: 0.7rem; color: #8a9aaa;">📍 ${escapeHtml(client.city)}</div>` : ''}
                     </div>
                     <div class="client-check">
                         ${selectedClients.has(client.id) ? '<i class="fas fa-check-circle"></i>' : '<i class="far fa-circle"></i>'}
@@ -593,38 +605,18 @@
 
         function updateSelectedCount() {
             const count = selectedClients.size;
-            selectedInfo.textContent = `${count} client${count > 1 ? 's' : ''} sélectionné${count > 1 ? 's' : ''}`;
+            selectedCountSpan.textContent = count;
             sendBtn.disabled = count === 0;
         }
 
-        const templates = {
-            promo: {
-                subject: "🎉 Offre spéciale sur Megane Market !",
-                message: "Profitez de nos offres promotionnelles exceptionnelles sur une sélection de produits. Livraison rapide et paiement sécurisé."
-            },
-            new_product: {
-                subject: "🆕 Nouveaux produits sont arrivés !",
-                message: "Découvrez les nouveaux produits ajoutés sur Megane Market. Qualité et prix imbattables."
-            },
-            newsletter: {
-                subject: "📰 Newsletter Megane Market",
-                message: "Restez informé des dernières actualités, promotions et nouveautés de Megane Market."
-            },
-            custom: {
-                subject: "",
-                message: ""
+        selectAllBtn.addEventListener('click', () => {
+            if (selectedClients.size === allClients.length) {
+                selectedClients.clear();
+            } else {
+                allClients.forEach(client => selectedClients.add(client.id));
             }
-        };
-
-        document.querySelectorAll('.template-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const template = templates[btn.dataset.template];
-                if (template) {
-                    if (template.subject) subjectInput.value = template.subject;
-                    if (template.message) messageInput.value = template.message;
-                    showToast(`Template "${btn.textContent}" chargé`, 'success');
-                }
-            });
+            renderClientList();
+            updateSelectedCount();
         });
 
         async function sendEmails() {
@@ -635,7 +627,7 @@
 
             const subject = subjectInput.value.trim();
             const message = messageInput.value.trim();
-            const fromName = fromNameInput.value.trim();
+            const replyTo = replyToInput.value.trim();
             const imageUrl = imageUrlInput.value.trim();
             const buttonUrl = buttonUrlInput.value.trim();
             const buttonText = buttonTextInput.value.trim() || "Découvrir";
@@ -644,17 +636,17 @@
                 showToast('Le sujet est requis', 'error');
                 return;
             }
-
             if (!message) {
                 showToast('Le message est requis', 'error');
                 return;
             }
 
-            const recipients = allClients.filter(c => selectedClients.has(c.id));
+            const recipients = allClients.filter(client => selectedClients.has(client.id));
             
             sendBtn.disabled = true;
-            const originalText = sendBtn.innerHTML;
-            sendBtn.innerHTML = '<div class="loader"></div> Envoi en cours...';
+            sendBtn.classList.add('animate');
+            const originalHTML = sendBtn.innerHTML;
+            sendBtn.innerHTML = '<div class="loader"></div> Envoi...';
 
             let successCount = 0;
             let errorCount = 0;
@@ -663,11 +655,13 @@
                 const clientName = client.full_name || 'Client';
                 
                 const templateParams = {
+                    to_email: client.email,
                     to_name: clientName,
                     message: message,
-                    from_name: fromName,
-                    image_url: imageUrl,
-                    button_url: buttonUrl,
+                    from_name: "Megane Market",
+                    reply_to: replyTo,
+                    image_url: imageUrl || "",
+                    button_url: buttonUrl || "",
                     button_text: buttonText
                 };
                 
@@ -680,25 +674,26 @@
                 }
             }
 
-            sendBtn.innerHTML = originalText;
+            sendBtn.innerHTML = originalHTML;
             sendBtn.disabled = false;
+            setTimeout(() => sendBtn.classList.remove('animate'), 500);
 
             if (successCount > 0) {
-                showToast(`✅ ${successCount} e-mail(s) envoyé(s) avec succès${errorCount > 0 ? `, ${errorCount} erreur(s)` : ''}`, 'success');
+                showToast(`✅ ${successCount} e-mail(s) envoyé(s)${errorCount > 0 ? `, ${errorCount} erreur(s)` : ''}`, 'success');
+                
+                // Réinitialiser
+                selectedClients.clear();
+                subjectInput.value = '';
+                messageInput.value = '';
+                imageUrlInput.value = '';
+                imagePreview.style.display = 'none';
+                buttonTextInput.value = 'Découvrir';
+                renderClientList();
+                updateSelectedCount();
             } else {
-                showToast('❌ Erreur lors de l\'envoi des e-mails', 'error');
+                showToast('❌ Erreur lors de l\'envoi', 'error');
             }
         }
-
-        selectAllBtn.addEventListener('click', () => {
-            if (selectedClients.size === allClients.length) {
-                selectedClients.clear();
-            } else {
-                allClients.forEach(c => selectedClients.add(c.id));
-            }
-            renderClientList();
-            updateSelectedCount();
-        });
 
         sendBtn.addEventListener('click', sendEmails);
 
@@ -709,9 +704,16 @@
             return div.innerHTML;
         }
 
-        loadClients();
-        updateSelectedCount();
+        async function init() {
+            const ok = await checkSession();
+            if (ok) {
+                await loadClients();
+                updateSelectedCount();
+            }
+        }
+        
+        init();
     })();
-</script>
+    </script>
 </body>
 </html>
