@@ -6,8 +6,8 @@
 
 body {
     font-family: 'DM Sans', sans-serif;
-    background: #0a0f1a;
-    color: #eef2ff;
+    background: #ffffff;
+    color: #1a2a3a;
     min-height: 100vh;
     padding: 20px;
 }
@@ -19,21 +19,22 @@ body {
 }
 
 /* ============================================
-   HEADER : rectangle 60px avec deux boutons
+   HEADER
    ============================================ */
 .header {
-    background: #0e1a26;
+    background: #ffffff;
     border-radius: 30px;
-    border: 1px solid #2a3a4a;
+    border: 1px solid #e8ecf0;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .tab-container {
-    background: #1a2a3a;
+    background: #f0f2f5;
     border-radius: 30px;
     padding: 4px;
     display: flex;
@@ -58,16 +59,16 @@ body {
 }
 
 /* ============================================
-   INFO AREA : zone unique (remplace tout)
+   INFO AREA
    ============================================ */
 .info-area {
-    background: #1a2a3a;
+    background: #f0f2f5;
     border-radius: 16px;
-    padding: 14px 18px;
+    padding: 18px 20px;
     margin-bottom: 20px;
     border-left: 4px solid;
     transition: all 0.2s ease;
-    min-height: 70px;
+    min-height: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -80,54 +81,54 @@ body {
 }
 
 .info-content i {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     flex-shrink: 0;
 }
 
 .info-content span {
-    font-size: 0.9rem;
-    line-height: 1.4;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 /* États de la info-area */
 .info-info {
-    background: #1a1a2e;
+    background: #e8f0fe;
     border-left-color: #5a9eff;
 }
 .info-info i {
     color: #5a9eff;
 }
 .info-info span {
-    color: #cbd5e1;
+    color: #1a2a3a;
 }
 
 .info-success {
-    background: #1a2a1a;
+    background: #e8f4e8;
     border-left-color: #4ade80;
 }
 .info-success i {
     color: #4ade80;
 }
 .info-success span {
-    color: #bbf7d0;
+    color: #2e7d32;
 }
 
 .info-error {
-    background: #2a1a1a;
+    background: #fee8e8;
     border-left-color: #ff4d4d;
 }
 .info-error i {
     color: #ff4d4d;
 }
 .info-error span {
-    color: #fecaca;
+    color: #d63030;
 }
 
-/* Barre de progression dans info-area */
+/* Barre de progression */
 .info-progress {
     margin-top: 10px;
     height: 4px;
-    background: #2a3a4a;
+    background: #e8ecf0;
     border-radius: 4px;
     overflow: hidden;
 }
@@ -143,10 +144,11 @@ body {
    FORMULAIRES
    ============================================ */
 .forms-container {
-    background: #0e1a26;
+    background: #ffffff;
     border-radius: 30px;
-    border: 1px solid #2a3a4a;
+    border: 1px solid #e8ecf0;
     padding: 28px 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 .form-card {
@@ -168,6 +170,7 @@ body {
     margin-bottom: 24px;
     font-size: 1.5rem;
     font-weight: 600;
+    color: #1a2a3a;
 }
 
 /* Input groups */
@@ -188,10 +191,10 @@ body {
 .input-group input {
     width: 100%;
     padding: 14px 16px 14px 44px;
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
+    background: #fafbfc;
+    border: 1px solid #e8ecf0;
     border-radius: 30px;
-    color: white;
+    color: #1a2a3a;
     font-size: 1rem;
     outline: none;
     transition: border-color 0.2s;
@@ -202,7 +205,7 @@ body {
 }
 
 .input-group input::placeholder {
-    color: #6c7a8a;
+    color: #b0b8c5;
 }
 
 /* Toggle password */
@@ -246,21 +249,22 @@ body {
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .btn-primary:hover {
     background: #3a7ecc;
+    transform: translateY(-2px);
 }
 
-/* Form footer (forgot password) */
+/* Form footer */
 .form-footer {
     text-align: right;
     margin-bottom: 20px;
 }
 
 .forgot-link {
-    color: #5eead4;
+    color: #5a9eff;
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 500;
@@ -268,8 +272,8 @@ body {
 }
 
 .forgot-link:hover {
-    color: #3b8bff;
     text-decoration: underline;
+    color: #3a7ecc;
 }
 
 .back-link {
@@ -286,7 +290,7 @@ body {
 }
 
 /* ============================================
-   INSCRIPTION MULTI-ÉTAPES (4 étapes)
+   INSCRIPTION MULTI-ÉTAPES
    ============================================ */
 .step {
     display: none;
@@ -306,17 +310,17 @@ body {
 .step-btn {
     flex: 1;
     padding: 12px;
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
+    background: #f0f2f5;
+    border: 1px solid #e8ecf0;
     border-radius: 30px;
-    color: white;
+    color: #1a2a3a;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .step-btn.prev:hover {
-    background: #2a3a4a;
+    background: #e8ecf0;
 }
 
 .step-btn.next {
@@ -331,7 +335,7 @@ body {
 
 /* Info note */
 .info-note {
-    background: #1a2a3a;
+    background: #f0f2f5;
     border-radius: 12px;
     padding: 10px 14px;
     font-size: 0.75rem;
@@ -350,7 +354,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -359,17 +363,17 @@ body {
 }
 
 .modal-card {
-    background: #0e1a26;
+    background: #ffffff;
     border-radius: 28px;
     padding: 32px;
     text-align: center;
-    border: 1px solid #2a3a4a;
+    border: 1px solid #e8ecf0;
 }
 
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid #2a3a4a;
+    border: 3px solid #e8ecf0;
     border-top-color: #5a9eff;
     border-radius: 50%;
     margin: 0 auto 16px;
@@ -378,6 +382,83 @@ body {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 50px;
+    padding: 12px 24px;
+    min-width: 250px;
+    max-width: 90%;
+    z-index: 10000;
+    transition: transform 0.3s ease;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.toast-notification.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast-notification.success {
+    border-left: 4px solid #4ade80;
+}
+.toast-notification.success i {
+    color: #4ade80;
+}
+
+.toast-notification.error {
+    border-left: 4px solid #ff4d4d;
+}
+.toast-notification.error i {
+    color: #ff4d4d;
+}
+
+.toast-notification.info {
+    border-left: 4px solid #5a9eff;
+}
+.toast-notification.info i {
+    color: #5a9eff;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #5a9eff;
+    width: 100%;
+    animation: toastProgress 4s linear forwards;
+    border-radius: 0 0 50px 50px;
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+.toast-notification.success .toast-progress {
+    background: #4ade80;
+}
+
+.toast-notification.error .toast-progress {
+    background: #ff4d4d;
 }
 
 /* ============================================
@@ -398,37 +479,14 @@ body {
     }
     
     .info-content span {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
     
     .step-btn {
         padding: 10px;
         font-size: 0.85rem;
     }
-}
-
-/* ============================================
-   AUGMENTATION HAUTEUR ZONE D'INFORMATIONS
-   ============================================ */
-.info-area {
-    padding: 18px 20px;
-    min-height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.info-content i {
-    font-size: 1.4rem;
-}
-
-.info-content span {
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-/* Ajustement responsif */
-@media (max-width: 480px) {
+    
     .info-area {
         padding: 16px 18px;
         min-height: 70px;
@@ -438,76 +496,6 @@ body {
         font-size: 1.2rem;
     }
     
-    .info-content span {
-        font-size: 0.9rem;
-    }
-}
-
-/* ============================================
-   CSS ADDITIONNEL
-   ============================================ */
-
-/* Amélioration du bouton œil (toggle password) */
-.input-group {
-    position: relative;
-}
-
-.input-group i:first-child {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #8a9aaa;
-    z-index: 1;
-}
-
-.input-group input {
-    width: 100%;
-    padding-right: 48px;
-}
-
-/* Zone de texte (textarea) */
-.textarea-group {
-    position: relative;
-}
-
-.textarea-group i {
-    position: absolute;
-    left: 16px;
-    top: 18px;
-    transform: none;
-    color: #8a9aaa;
-}
-
-.textarea-group textarea {
-    width: 100%;
-    padding: 14px 16px 14px 44px;
-    background: #1a2a3a;
-    border: 1px solid #2a3a4a;
-    border-radius: 20px;
-    color: white;
-    font-size: 0.95rem;
-    font-family: 'DM Sans', sans-serif;
-    resize: vertical;
-    outline: none;
-}
-
-.textarea-group textarea:focus {
-    border-color: #5a9eff;
-}
-
-/* Compteur de mots */
-.word-counter {
-    text-align: right;
-    font-size: 0.75rem;
-    color: #ffaa44;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    padding-right: 8px;
-}
-
-/* Responsive pour les petits écrans */
-@media (max-width: 480px) {
     .toggle-password {
         right: 12px;
         padding: 6px;
@@ -515,9 +503,5 @@ body {
     
     .input-group input {
         padding-right: 40px;
-    }
-    
-    .textarea-group textarea {
-        font-size: 0.85rem;
     }
 }
