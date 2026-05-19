@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Envoi d'e-mail - Megane Market</title>
+    <title>Envoyer un e-mail - Megane Market</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -23,22 +23,22 @@
             padding-bottom: 80px;
         }
 
-        /* ============ HEADER FIXE ============ */
+        /* ============ HEADER ============ */
         .main-header {
             position: fixed;
             top: 16px;
             left: 16px;
             right: 16px;
             z-index: 1000;
-            background: white;
+            background: #ffffff;
             border-radius: 60px;
             height: 60px;
             padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #e8ecf0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #5a9eff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
         }
 
         .logo-area {
@@ -64,12 +64,12 @@
         }
 
         .header-btn {
-            background: #f0f2f5;
-            border: 1px solid #d0d5dd;
+            background: rgba(90, 158, 255, 0.1);
+            border: 1px solid #5a9eff;
             border-radius: 40px;
             padding: 8px 16px;
             cursor: pointer;
-            color: #1a2a3a;
+            color: #5a9eff;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.8rem;
@@ -82,7 +82,7 @@
         .header-btn:hover {
             background: #5a9eff;
             color: white;
-            border-color: #5a9eff;
+            transform: translateX(-4px);
         }
 
         /* ============ MAIN CONTENT ============ */
@@ -94,7 +94,7 @@
 
         /* ============ CARTES ============ */
         .card {
-            background: white;
+            background: #ffffff;
             border-radius: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             overflow: hidden;
@@ -104,7 +104,7 @@
 
         .card-header {
             padding: 18px 24px;
-            background: white;
+            background: #ffffff;
             border-bottom: 2px solid #e8ecf0;
             display: flex;
             justify-content: space-between;
@@ -207,7 +207,8 @@
             color: #5a9eff;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input, 
+        .form-group textarea {
             width: 100%;
             padding: 12px 16px;
             background: #fafbfc;
@@ -220,7 +221,8 @@
             transition: all 0.2s;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
+        .form-group input:focus, 
+        .form-group textarea:focus {
             border-color: #5a9eff;
             box-shadow: 0 0 0 3px rgba(90, 158, 255, 0.1);
         }
@@ -248,13 +250,13 @@
             gap: 10px;
         }
 
-        /* ============ FOOTER FIXE ============ */
+        /* ============ FOOTER ============ */
         .main-footer {
             position: fixed;
             bottom: 16px;
             left: 16px;
             right: 16px;
-            background: white;
+            background: #ffffff;
             border-radius: 60px;
             height: 60px;
             padding: 0 20px;
@@ -262,12 +264,12 @@
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            border: 1px solid #e8ecf0;
+            border: 1px solid #5a9eff;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .footer-counter {
-            background: #f0f2f5;
+            background: rgba(90, 158, 255, 0.1);
             padding: 8px 16px;
             border-radius: 40px;
             font-size: 0.85rem;
@@ -304,7 +306,6 @@
         .btn-send:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-send.animate {
@@ -401,22 +402,19 @@
 </head>
 <body>
 
-    <!-- HEADER FIXE -->
     <header class="main-header">
         <div class="logo-area">
             <i class="fas fa-envelope"></i>
             <span>Envoyer un e-mail</span>
         </div>
         <div class="header-actions">
-            <a href="settings.html" class="header-btn">
+            <a href="index.html" class="header-btn">
                 <i class="fas fa-arrow-left"></i> <span>Retour</span>
             </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <!-- Carte 1 : Sélection des clients -->
+    <main class="main-content">
         <div class="card">
             <div class="card-header">
                 <h3><i class="fas fa-users"></i> Vos clients</h3>
@@ -435,7 +433,6 @@
             </div>
         </div>
 
-        <!-- Carte 2 : Informations de l'e-mail -->
         <div class="card">
             <div class="card-header">
                 <h3><i class="fas fa-edit"></i> Informations de l'e-mail</h3>
@@ -453,7 +450,6 @@
             </div>
         </div>
 
-        <!-- Carte 3 : Personnalisation -->
         <div class="card">
             <div class="card-header">
                 <h3><i class="fas fa-palette"></i> Personnalisation</h3>
@@ -477,9 +473,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- FOOTER FIXE -->
     <footer class="main-footer">
         <div class="footer-counter">
             <i class="fas fa-users"></i> <span id="selectedCount">0</span> client(s)
@@ -493,227 +488,225 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    (function() {
-        const SUPABASE_URL = 'https://emcsigvlopntwbfkkjkh.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtY3NpZ3Zsb3BudHdiZmtramtoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4ODE5MTgsImV4cCI6MjA5NDQ1NzkxOH0.YwYoV-azL3WEFtHoh4yoF7xTLrOwZILKCzJrGPsCs6I';
+        (function() {
+            const SUPABASE_URL = 'https://emcsigvlopntwbfkkjkh.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVtY3NpZ3Zsb3BudHdiZmtramtoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4ODE5MTgsImV4cCI6MjA5NDQ1NzkxOH0.YwYoV-azL3WEFtHoh4yoF7xTLrOwZILKCzJrGPsCs6I';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        emailjs.init({
-            publicKey: "4TkvKRRbn9qDSIjG3",
-        });
-
-        const SERVICE_ID = "Megane_market";
-        const TEMPLATE_ID = "template_ugz1f33";
-
-        let allClients = [];
-        let selectedClients = new Set();
-        let currentUserId = null;
-
-        const clientListEl = document.getElementById('clientList');
-        const selectedCountSpan = document.getElementById('selectedCount');
-        const sendBtn = document.getElementById('sendEmailBtn');
-        const subjectInput = document.getElementById('emailSubject');
-        const messageInput = document.getElementById('emailMessage');
-        const replyToInput = document.getElementById('replyTo');
-        const imageUrlInput = document.getElementById('imageUrl');
-        const imagePreview = document.getElementById('imagePreview');
-        const buttonUrlInput = document.getElementById('buttonUrl');
-        const buttonTextInput = document.getElementById('buttonText');
-        const selectAllBtn = document.getElementById('selectAllBtn');
-        const toastEl = document.getElementById('toast');
-
-        // Aperçu image
-        imageUrlInput.addEventListener('input', () => {
-            const url = imageUrlInput.value.trim();
-            if (url) {
-                imagePreview.src = url;
-                imagePreview.style.display = 'block';
-            } else {
-                imagePreview.style.display = 'none';
-            }
-        });
-
-        function showToast(message, type = 'info') {
-            toastEl.textContent = message;
-            toastEl.className = `toast ${type} show`;
-            setTimeout(() => toastEl.classList.remove('show'), 4000);
-        }
-
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                window.location.href = 'auth.html';
-                return false;
-            }
-            currentUserId = session.user.id;
-            return true;
-        }
-
-        async function loadClients() {
-            try {
-                const { data, error } = await supabase
-                    .from('buyers')
-                    .select('id, full_name, email, city')
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-                allClients = data || [];
-                renderClientList();
-            } catch (err) {
-                console.error('Erreur chargement clients:', err);
-                clientListEl.innerHTML = `<div class="tip">Erreur chargement des clients</div>`;
-            }
-        }
-
-        function renderClientList() {
-            if (allClients.length === 0) {
-                clientListEl.innerHTML = `<div class="tip">Aucun client trouvé</div>`;
-                updateSelectedCount();
-                return;
-            }
-
-            clientListEl.innerHTML = allClients.map(client => `
-                <div class="client-item ${selectedClients.has(client.id) ? 'selected' : ''}" data-id="${client.id}">
-                    <div class="client-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="client-info">
-                        <div class="client-name">${escapeHtml(client.full_name || 'Client')}</div>
-                        <div class="client-email">${escapeHtml(client.email || '-')}</div>
-                        ${client.city ? `<div style="font-size: 0.7rem; color: #8a9aaa;">📍 ${escapeHtml(client.city)}</div>` : ''}
-                    </div>
-                    <div class="client-check">
-                        ${selectedClients.has(client.id) ? '<i class="fas fa-check-circle"></i>' : '<i class="far fa-circle"></i>'}
-                    </div>
-                </div>
-            `).join('');
-
-            document.querySelectorAll('.client-item').forEach(item => {
-                const id = item.getAttribute('data-id');
-                item.addEventListener('click', () => {
-                    if (selectedClients.has(id)) {
-                        selectedClients.delete(id);
-                    } else {
-                        selectedClients.add(id);
-                    }
-                    renderClientList();
-                    updateSelectedCount();
-                });
-            });
-        }
-
-        function updateSelectedCount() {
-            const count = selectedClients.size;
-            selectedCountSpan.textContent = count;
-            sendBtn.disabled = count === 0;
-        }
-
-        selectAllBtn.addEventListener('click', () => {
-            if (selectedClients.size === allClients.length) {
-                selectedClients.clear();
-            } else {
-                allClients.forEach(client => selectedClients.add(client.id));
-            }
-            renderClientList();
-            updateSelectedCount();
-        });
-
-        async function sendEmails() {
-            if (selectedClients.size === 0) {
-                showToast('Sélectionnez au moins un client', 'error');
-                return;
-            }
-
-            const subject = subjectInput.value.trim();
-            const message = messageInput.value.trim();
-            const replyTo = replyToInput.value.trim();
-            const imageUrl = imageUrlInput.value.trim();
-            const buttonUrl = buttonUrlInput.value.trim();
-            const buttonText = buttonTextInput.value.trim() || "Découvrir";
-
-            if (!subject) {
-                showToast('Le sujet est requis', 'error');
-                return;
-            }
-            if (!message) {
-                showToast('Le message est requis', 'error');
-                return;
-            }
-
-            const recipients = allClients.filter(client => selectedClients.has(client.id));
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             
-            sendBtn.disabled = true;
-            sendBtn.classList.add('animate');
-            const originalHTML = sendBtn.innerHTML;
-            sendBtn.innerHTML = '<div class="loader"></div> Envoi...';
+            emailjs.init({
+                publicKey: "4TkvKRRbn9qDSIjG3",
+            });
 
-            let successCount = 0;
-            let errorCount = 0;
+            const SERVICE_ID = "Megane_market";
+            const TEMPLATE_ID = "template_ugz1f33";
 
-            for (const client of recipients) {
-                const clientName = client.full_name || 'Client';
-                
-                const templateParams = {
-                    to_email: client.email,
-                    to_name: clientName,
-                    message: message,
-                    from_name: "Megane Market",
-                    reply_to: replyTo,
-                    image_url: imageUrl || "",
-                    button_url: buttonUrl || "",
-                    button_text: buttonText
-                };
-                
+            let allClients = [];
+            let selectedClients = new Set();
+            let currentUserId = null;
+
+            const clientListEl = document.getElementById('clientList');
+            const selectedCountSpan = document.getElementById('selectedCount');
+            const sendBtn = document.getElementById('sendEmailBtn');
+            const subjectInput = document.getElementById('emailSubject');
+            const messageInput = document.getElementById('emailMessage');
+            const replyToInput = document.getElementById('replyTo');
+            const imageUrlInput = document.getElementById('imageUrl');
+            const imagePreview = document.getElementById('imagePreview');
+            const buttonUrlInput = document.getElementById('buttonUrl');
+            const buttonTextInput = document.getElementById('buttonText');
+            const selectAllBtn = document.getElementById('selectAllBtn');
+            const toastEl = document.getElementById('toast');
+
+            imageUrlInput.addEventListener('input', () => {
+                const url = imageUrlInput.value.trim();
+                if (url) {
+                    imagePreview.src = url;
+                    imagePreview.style.display = 'block';
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
+
+            function showToast(message, type = 'info') {
+                toastEl.textContent = message;
+                toastEl.className = `toast ${type} show`;
+                setTimeout(() => toastEl.classList.remove('show'), 4000);
+            }
+
+            async function checkSession() {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    window.location.href = 'auth.html';
+                    return false;
+                }
+                currentUserId = session.user.id;
+                return true;
+            }
+
+            async function loadClients() {
                 try {
-                    await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
-                    successCount++;
+                    const { data, error } = await supabase
+                        .from('buyers')
+                        .select('id, full_name, email, city')
+                        .order('created_at', { ascending: false });
+
+                    if (error) throw error;
+                    allClients = data || [];
+                    renderClientList();
                 } catch (err) {
-                    console.error(`Erreur envoi à ${client.email}:`, err);
-                    errorCount++;
+                    console.error('Erreur chargement clients:', err);
+                    clientListEl.innerHTML = `<div class="tip">Erreur chargement des clients</div>`;
                 }
             }
 
-            sendBtn.innerHTML = originalHTML;
-            sendBtn.disabled = false;
-            setTimeout(() => sendBtn.classList.remove('animate'), 500);
+            function renderClientList() {
+                if (allClients.length === 0) {
+                    clientListEl.innerHTML = `<div class="tip">Aucun client trouvé</div>`;
+                    updateSelectedCount();
+                    return;
+                }
 
-            if (successCount > 0) {
-                showToast(`✅ ${successCount} e-mail(s) envoyé(s)${errorCount > 0 ? `, ${errorCount} erreur(s)` : ''}`, 'success');
-                
-                // Réinitialiser
-                selectedClients.clear();
-                subjectInput.value = '';
-                messageInput.value = '';
-                imageUrlInput.value = '';
-                imagePreview.style.display = 'none';
-                buttonTextInput.value = 'Découvrir';
+                clientListEl.innerHTML = allClients.map(client => `
+                    <div class="client-item ${selectedClients.has(client.id) ? 'selected' : ''}" data-id="${client.id}">
+                        <div class="client-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="client-info">
+                            <div class="client-name">${escapeHtml(client.full_name || 'Client')}</div>
+                            <div class="client-email">${escapeHtml(client.email || '-')}</div>
+                            ${client.city ? `<div style="font-size: 0.7rem; color: #8a9aaa;">📍 ${escapeHtml(client.city)}</div>` : ''}
+                        </div>
+                        <div class="client-check">
+                            ${selectedClients.has(client.id) ? '<i class="fas fa-check-circle"></i>' : '<i class="far fa-circle"></i>'}
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.client-item').forEach(item => {
+                    const id = item.getAttribute('data-id');
+                    item.addEventListener('click', () => {
+                        if (selectedClients.has(id)) {
+                            selectedClients.delete(id);
+                        } else {
+                            selectedClients.add(id);
+                        }
+                        renderClientList();
+                        updateSelectedCount();
+                    });
+                });
+            }
+
+            function updateSelectedCount() {
+                const count = selectedClients.size;
+                selectedCountSpan.textContent = count;
+                sendBtn.disabled = count === 0;
+            }
+
+            selectAllBtn.addEventListener('click', () => {
+                if (selectedClients.size === allClients.length) {
+                    selectedClients.clear();
+                } else {
+                    allClients.forEach(client => selectedClients.add(client.id));
+                }
                 renderClientList();
                 updateSelectedCount();
-            } else {
-                showToast('❌ Erreur lors de l\'envoi', 'error');
+            });
+
+            async function sendEmails() {
+                if (selectedClients.size === 0) {
+                    showToast('Sélectionnez au moins un client', 'error');
+                    return;
+                }
+
+                const subject = subjectInput.value.trim();
+                const message = messageInput.value.trim();
+                const replyTo = replyToInput.value.trim();
+                const imageUrl = imageUrlInput.value.trim();
+                const buttonUrl = buttonUrlInput.value.trim();
+                const buttonText = buttonTextInput.value.trim() || "Découvrir";
+
+                if (!subject) {
+                    showToast('Le sujet est requis', 'error');
+                    return;
+                }
+                if (!message) {
+                    showToast('Le message est requis', 'error');
+                    return;
+                }
+
+                const recipients = allClients.filter(client => selectedClients.has(client.id));
+                
+                sendBtn.disabled = true;
+                sendBtn.classList.add('animate');
+                const originalHTML = sendBtn.innerHTML;
+                sendBtn.innerHTML = '<div class="loader"></div> Envoi...';
+
+                let successCount = 0;
+                let errorCount = 0;
+
+                for (const client of recipients) {
+                    const clientName = client.full_name || 'Client';
+                    
+                    const templateParams = {
+                        to_email: client.email,
+                        to_name: clientName,
+                        message: message,
+                        from_name: "Megane Market",
+                        reply_to: replyTo,
+                        image_url: imageUrl || "",
+                        button_url: buttonUrl || "",
+                        button_text: buttonText
+                    };
+                    
+                    try {
+                        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+                        successCount++;
+                    } catch (err) {
+                        console.error(`Erreur envoi à ${client.email}:`, err);
+                        errorCount++;
+                    }
+                }
+
+                sendBtn.innerHTML = originalHTML;
+                sendBtn.disabled = false;
+                setTimeout(() => sendBtn.classList.remove('animate'), 500);
+
+                if (successCount > 0) {
+                    showToast(`✅ ${successCount} e-mail(s) envoyé(s)${errorCount > 0 ? `, ${errorCount} erreur(s)` : ''}`, 'success');
+                    
+                    selectedClients.clear();
+                    subjectInput.value = '';
+                    messageInput.value = '';
+                    imageUrlInput.value = '';
+                    imagePreview.style.display = 'none';
+                    buttonTextInput.value = 'Découvrir';
+                    renderClientList();
+                    updateSelectedCount();
+                } else {
+                    showToast('❌ Erreur lors de l\'envoi', 'error');
+                }
             }
-        }
 
-        sendBtn.addEventListener('click', sendEmails);
+            sendBtn.addEventListener('click', sendEmails);
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        async function init() {
-            const ok = await checkSession();
-            if (ok) {
-                await loadClients();
-                updateSelectedCount();
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
             }
-        }
-        
-        init();
-    })();
+
+            async function init() {
+                const ok = await checkSession();
+                if (ok) {
+                    await loadClients();
+                    updateSelectedCount();
+                }
+            }
+            
+            init();
+        })();
     </script>
 </body>
 </html>

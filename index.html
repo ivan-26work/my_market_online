@@ -14,11 +14,16 @@
     <header class="main-header" id="mainHeader">
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Rechercher un produit, prix...">
+            <input type="text" id="searchInput" placeholder="Rechercher un produit...">
         </div>
-        <a href="settings.html" class="icon-btn">
-            <i class="fas fa-cog"></i>
-        </a>
+        <div class="header-actions">
+            <button id="refreshBtn" class="icon-btn" title="Rafraîchir">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <a href="settings.html" class="icon-btn" title="Paramètres">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
     </header>
 
     <!-- BANNIÈRE D'AVERTISSEMENT (supprimable) -->
@@ -35,6 +40,7 @@
     <!-- ANIMATION DE CHARGEMENT CENTRÉE -->
     <div id="loadingAnimation" class="loading-animation">
         <div class="loader-icon">
+            <div class="border-rotate"></div>
             <i class="fas fa-store"></i>
         </div>
         <p>Chargement de votre marché...</p>
@@ -45,15 +51,18 @@
         <div class="filters-scroll" id="filtersScroll"></div>
     </div>
 
-    <!-- GRILLE PRODUITS (cachée au départ) -->
+    <!-- GRILLE PRODUITS -->
     <main class="main-content" id="mainContent" style="display: none;">
         <div id="productsGrid" class="products-grid"></div>
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER FAB -->
     <footer class="main-footer">
-        <a href="createproduct.html" class="fab-btn">
+        <a href="createproduct.html" class="fab-btn" title="Ajouter un produit">
             <i class="fas fa-plus"></i>
+        </a>
+        <a href="envoi-email-vendeur.html" class="fab-btn email" title="Envoyer un email">
+            <i class="fas fa-envelope"></i>
         </a>
     </footer>
 
