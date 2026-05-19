@@ -1,5 +1,5 @@
 // ===============================================
-// INDEX.JS - ADMINISTRATION
+// INDEX.JS - ADMINISTRATION VENDEUR
 // ===============================================
 
 (function() {
@@ -12,6 +12,7 @@
     let currentProducts = [];
     let activeFilter = 'all';
     let marketInfo = null;
+    let searchTimeout = null;
 
     // DOM elements
     const productsGrid = document.getElementById('productsGrid');
@@ -25,10 +26,50 @@
     const warningMessage = document.getElementById('warningMessage');
     const closeWarningBtn = document.getElementById('closeWarningBtn');
     const mainHeader = document.getElementById('mainHeader');
+    const refreshBtn = document.getElementById('refreshBtn');
 
-    // ============================================
-    // VÉRIFICATION DES INFOS ADMIN
-    // ============================================
+    // ============ PERSISTANCE SESSIONSTORAGE ============
+    function saveToSession() {
+        const dataToSave = {
+            products: currentProducts,
+            activeFilter: activeFilter,
+            searchTerm: searchInput ? searchInput.value : '',
+            timestamp: Date.now()
+        };
+        sessionStorage.setItem('vendeur_products_cache', JSON.stringify(dataToSave));
+    }
+
+    function loadFromSession() {
+        const cached = sessionStorage.getItem('vendeur_products_cache');
+        if (!cached) return false;
+        
+        try {
+            const data = JSON.parse(cached);
+            // Cache valide 30 minutes
+            if (Date.now() - data.timestamp > 30 * 60 * 1000) {
+                sessionStorage.removeItem('vendeur_products_cache');
+                return false;
+            }
+            
+            currentProducts = data.products || [];
+            activeFilter = data.activeFilter || 'all';
+            if (searchInput && data.searchTerm) {
+                searchInput.value = data.searchTerm;
+            }
+            
+            buildFilters();
+            displayProducts();
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function clearCache() {
+        sessionStorage.removeItem('vendeur_products_cache');
+    }
+
+    // ============ VÉRIFICATION DES INFOS ADMIN ============
     function validateWhatsapp(number) {
         if (!number) return false;
         let clean = number.replace(/\D/g, '');
@@ -58,7 +99,6 @@
             mainHeader.classList.remove('warning-border');
         }
         
-        // Bannière WhatsApp uniquement
         if (!marketInfo?.whatsapp || !validateWhatsapp(marketInfo.whatsapp)) {
             const bannerClosed = localStorage.getItem('whatsapp_warning_closed');
             if (!bannerClosed) {
@@ -76,9 +116,7 @@
         localStorage.setItem('whatsapp_warning_closed', 'true');
     });
 
-    // ============================================
-    // CHARGEMENT DES DONNÉES
-    // ============================================
+    // ============ CHARGEMENT DES DONNÉES ============
     async function loadMarketInfo() {
         const { data, error } = await supabase
             .from('markets')
@@ -92,8 +130,25 @@
         }
     }
 
-    async function loadProducts() {
+    async function loadProducts(forceRefresh = false) {
         if (!currentUserId) return;
+        
+        // Si forceRefresh, on vide le cache
+        if (forceRefresh) {
+            clearCache();
+        }
+        
+        // Essayer de charger depuis le cache d'abord
+        if (!forceRefresh && loadFromSession()) {
+            // Cache chargé avec succès
+            loadingAnimation.classList.add('hide');
+            setTimeout(() => {
+                loadingAnimation.style.display = 'none';
+                mainContent.style.display = 'block';
+                filtersContainer.style.display = currentProducts.length > 0 ? 'block' : 'none';
+            }, 500);
+            return;
+        }
         
         try {
             const { data, error } = await supabase
@@ -106,10 +161,10 @@
             if (error) throw error;
             
             currentProducts = data || [];
+            saveToSession();
             buildFilters();
             displayProducts();
             
-            // Animation terminée → afficher le contenu
             loadingAnimation.classList.add('hide');
             setTimeout(() => {
                 loadingAnimation.style.display = 'none';
@@ -131,6 +186,19 @@
                 `;
             }, 500);
         }
+    }
+
+    // Rafraîchissement manuel
+    async function refreshProducts() {
+        // Animation sur le bouton refresh
+        if (refreshBtn) {
+            refreshBtn.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                refreshBtn.style.transform = '';
+            }, 500);
+        }
+        
+        await loadProducts(true);
     }
 
     function buildFilters() {
@@ -169,6 +237,7 @@
             );
         });
         displayProducts();
+        saveToSession();
     }
 
     function displayProducts() {
@@ -242,9 +311,7 @@
         return div.innerHTML;
     }
 
-    // ============================================
-    // SESSION
-    // ============================================
+    // ============ SESSION ============
     function showLoading(msg = 'Chargement...') {
         const modalStatus = document.getElementById('modalStatus');
         if (modalStatus) modalStatus.textContent = msg;
@@ -273,7 +340,19 @@
 
     function initSearch() {
         if (searchInput) {
-            searchInput.addEventListener('input', () => displayProducts());
+            searchInput.addEventListener('input', () => {
+                if (searchTimeout) clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    displayProducts();
+                    saveToSession();
+                }, 300);
+            });
+        }
+    }
+
+    function initRefreshButton() {
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', refreshProducts);
         }
     }
 
@@ -281,8 +360,9 @@
         const user = await checkSession();
         if (user) {
             await loadMarketInfo();
-            await loadProducts();
+            await loadProducts(false);
             initSearch();
+            initRefreshButton();
         }
     }
 
