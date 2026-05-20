@@ -6,7 +6,6 @@
     <title>Statistiques - Megane Market</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -127,7 +126,7 @@
 
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -197,13 +196,39 @@
             padding: 12px;
             background: #fafbfc;
             border-radius: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
-        .rank-number {
-            width: 30px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: #5a9eff;
+        .ranking-item:hover {
+            transform: translateX(4px);
+            background: #f0f2f5;
+        }
+
+        /* Style pour les produits boostés */
+        .ranking-item.boosted {
+            background: #e8f5e9;
+            border-left: 4px solid #4ade80;
+        }
+
+        .product-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #e8ecf0;
+        }
+
+        .product-img-placeholder {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: #e8ecf0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a9aaa;
+            font-size: 1.2rem;
         }
 
         .rank-info {
@@ -225,6 +250,42 @@
             font-weight: 700;
             color: #5a9eff;
             font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .boost-badge {
+            background: #4ade80;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 8px;
+        }
+
+        .boost-btn {
+            background: rgba(74, 222, 128, 0.15);
+            border: 1px solid #4ade80;
+            border-radius: 30px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #2e7d32;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .boost-btn:hover {
+            background: #4ade80;
+            color: white;
+            transform: scale(1.02);
         }
 
         .empty-state {
@@ -239,8 +300,8 @@
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border: 3px solid #e8ecf0;
             border-top-color: #5a9eff;
             border-radius: 50%;
@@ -252,9 +313,240 @@
             to { transform: rotate(360deg); }
         }
 
+        /* MODAL BOOST (création) */
+        .boost-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .boost-modal-content {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 28px;
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 0.3s ease;
+        }
+
+        .boost-modal-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #1a2a3a;
+        }
+
+        .boost-modal-content .product-name {
+            color: #4ade80;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1a2a3a;
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: #fafbfc;
+            border: 1px solid #e8ecf0;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #4ade80;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f2f5;
+            border: none;
+            color: #8a9aaa;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e8ecf0;
+        }
+
+        .modal-btn.confirm {
+            background: #4ade80;
+            border: none;
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #22c55e;
+            transform: translateY(-2px);
+        }
+
+        /* MODAL INFO BOOST (visualisation) */
+        .info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .info-modal-content {
+            background: #ffffff;
+            border-radius: 28px 28px 0 0;
+            padding: 28px;
+            max-width: 500px;
+            width: 100%;
+            animation: slideUpBottom 0.3s ease;
+        }
+
+        @keyframes slideUpBottom {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .info-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4ade80;
+        }
+
+        .info-modal-header h3 {
+            font-size: 1.1rem;
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #8a9aaa;
+        }
+
+        .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        .info-label {
+            width: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #8a9aaa;
+        }
+
+        .info-value {
+            flex: 1;
+            font-size: 0.85rem;
+            color: #1a2a3a;
+        }
+
+        .info-badge {
+            display: inline-block;
+            background: #4ade80;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1a2a3a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2100;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: #4ade80;
+            color: #1a2a3a;
+        }
+
         @media (max-width: 900px) {
             .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -263,10 +555,63 @@
                 margin: 12px 12px 0 12px;
                 padding: 0 15px;
             }
-            .kpi-value {
-                font-size: 1.3rem;
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .ranking-item {
+                flex-wrap: wrap;
+            }
+            .rank-value {
+                width: 100%;
+                margin-left: 62px;
+            }
+            .boost-btn {
+                margin-left: 62px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .info-label {
+                width: 80px;
             }
         }
+        .edit-date-input {
+    padding: 6px 10px;
+    background: #fafbfc;
+    border: 1px solid #e8ecf0;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    margin-right: 8px;
+}
+
+.small-btn {
+    background: rgba(90, 158, 255, 0.1);
+    border: 1px solid #5a9eff;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #5a9eff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.small-btn:hover {
+    background: #5a9eff;
+    color: white;
+}
+
+.modal-btn.delete {
+    background: rgba(255, 77, 77, 0.1);
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+}
+
+.modal-btn.delete:hover {
+    background: #ff4d4d;
+    color: white;
+}
     </style>
 </head>
 <body>
@@ -288,6 +633,8 @@
         </div>
     </main>
 
+    <div id="toast" class="toast"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         (function() {
@@ -296,11 +643,19 @@
 
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             const mainContent = document.getElementById('mainContent');
+            const toastEl = document.getElementById('toast');
 
             let currentUserId = null;
             let allProducts = [];
             let productStats = {};
+            let productBoosts = {};
             let currentPeriod = 30;
+
+            function showToast(message, type = 'info') {
+                toastEl.textContent = message;
+                toastEl.className = `toast ${type} show`;
+                setTimeout(() => toastEl.classList.remove('show'), 3000);
+            }
 
             async function checkSession() {
                 const { data: { session } } = await supabase.auth.getSession();
@@ -312,8 +667,22 @@
                 return true;
             }
 
+            async function loadBoosts() {
+                const { data } = await supabase
+                    .from('product_boosts')
+                    .select('*')
+                    .eq('is_active', true);
+                
+                productBoosts = {};
+                for (const boost of data || []) {
+                    productBoosts[boost.product_id] = boost;
+                }
+            }
+
             async function loadData() {
                 try {
+                    await loadBoosts();
+                    
                     const { data: products, error } = await supabase
                         .from('products')
                         .select('*')
@@ -327,47 +696,27 @@
                         const startDate = new Date();
                         startDate.setDate(startDate.getDate() - currentPeriod);
                         
-                        // Récupérer les VUES (view_count)
-                        const { data: viewStats, error: viewError } = await supabase
+                        const { data: stats, error: statsError } = await supabase
                             .from('product_stats')
-                            .select('product_id, view_count')
-                            .in('product_id', productIds)
-                            .gte('viewed_at', startDate.toISOString());
+                            .select('*')
+                            .in('product_id', productIds);
                         
-                        if (viewError) throw viewError;
-                        
-                        // Récupérer les TOUCHERS (click_type = 'touch')
-                        const { data: touchStats, error: touchError } = await supabase
-                            .from('product_stats')
-                            .select('product_id, click_count')
-                            .in('product_id', productIds)
-                            .eq('click_type', 'touch')
-                            .gte('clicked_at', startDate.toISOString());
-                        
-                        if (touchError) throw touchError;
-                        
-                        // Récupérer les WHATSAPP (click_type = 'whatsapp')
-                        const { data: whatsappStats, error: whatsappError } = await supabase
-                            .from('product_stats')
-                            .select('product_id, click_count')
-                            .in('product_id', productIds)
-                            .eq('click_type', 'whatsapp')
-                            .gte('clicked_at', startDate.toISOString());
-                        
-                        if (whatsappError) throw whatsappError;
+                        if (statsError) throw statsError;
                         
                         productStats = {};
-                        for (const stat of viewStats || []) {
-                            if (!productStats[stat.product_id]) productStats[stat.product_id] = { views: 0, touches: 0, whatsapps: 0 };
-                            productStats[stat.product_id].views += stat.view_count || 0;
-                        }
-                        for (const stat of touchStats || []) {
-                            if (!productStats[stat.product_id]) productStats[stat.product_id] = { views: 0, touches: 0, whatsapps: 0 };
-                            productStats[stat.product_id].touches += stat.click_count || 0;
-                        }
-                        for (const stat of whatsappStats || []) {
-                            if (!productStats[stat.product_id]) productStats[stat.product_id] = { views: 0, touches: 0, whatsapps: 0 };
-                            productStats[stat.product_id].whatsapps += stat.click_count || 0;
+                        for (const stat of stats || []) {
+                            const statDate = stat.viewed_at || stat.clicked_at;
+                            if (statDate && new Date(statDate) < startDate) continue;
+                            
+                            if (!productStats[stat.product_id]) {
+                                productStats[stat.product_id] = { views: 0, touches: 0, cards: 0, whatsapps: 0 };
+                            }
+                            if (stat.view_count) productStats[stat.product_id].views += stat.view_count;
+                            if (stat.click_count) {
+                                if (stat.click_type === 'touch') productStats[stat.product_id].touches += stat.click_count;
+                                else if (stat.click_type === 'card') productStats[stat.product_id].cards += stat.click_count;
+                                else if (stat.click_type === 'whatsapp') productStats[stat.product_id].whatsapps += stat.click_count;
+                            }
                         }
                     }
                     
@@ -376,6 +725,7 @@
                 } catch (err) {
                     console.error('Erreur:', err);
                     mainContent.innerHTML = '<div class="empty-state">Erreur chargement des statistiques</div>';
+                    showToast('Erreur chargement', 'error');
                 }
             }
 
@@ -385,6 +735,10 @@
 
             function getProductTouches(productId) {
                 return productStats[productId]?.touches || 0;
+            }
+
+            function getProductCardClicks(productId) {
+                return productStats[productId]?.cards || 0;
             }
 
             function getProductWhatsApps(productId) {
@@ -403,20 +757,21 @@
                 return allProducts.reduce((sum, p) => sum + getProductTouches(p.id), 0);
             }
 
+            function getTotalCardClicks() {
+                return allProducts.reduce((sum, p) => sum + getProductCardClicks(p.id), 0);
+            }
+
             function getTotalWhatsApps() {
                 return allProducts.reduce((sum, p) => sum + getProductWhatsApps(p.id), 0);
             }
 
-            function getTopProducts(metric, limit = 5) {
-                const getter = metric === 'views' ? getProductViews : (metric === 'touches' ? getProductTouches : getProductWhatsApps);
+            function getTopProducts(metric, limit = 10) {
+                const getter = metric === 'views' ? getProductViews : 
+                              (metric === 'touches' ? getProductTouches : 
+                              (metric === 'cards' ? getProductCardClicks : getProductWhatsApps));
                 return [...allProducts]
                     .sort((a, b) => getter(b.id) - getter(a.id))
                     .slice(0, limit);
-            }
-
-            function getZeroProducts(metric, limit = 5) {
-                const getter = metric === 'views' ? getProductViews : (metric === 'touches' ? getProductTouches : getProductWhatsApps);
-                return allProducts.filter(p => getter(p.id) === 0).slice(0, limit);
             }
 
             function formatPrice(price) {
@@ -430,19 +785,256 @@
                 return div.innerHTML;
             }
 
+            // MODAL INFO BOOST (pour voir les détails d'un boost existant)
+      // MODAL INFO BOOST (avec modification date et suppression)
+function showBoostInfoModal(boost, productName) {
+    const modal = document.createElement('div');
+    modal.className = 'info-modal';
+    modal.innerHTML = `
+        <div class="info-modal-content">
+            <div class="info-modal-header">
+                <h3><i class="fas fa-rocket" style="color:#4ade80;"></i> Détails du boost</h3>
+                <button class="info-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Produit</div>
+                <div class="info-value">${escapeHtml(productName)}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Type</div>
+                <div class="info-value">
+                    ${boost.boost_type === 'promotion' ? '🎉 Promotion' : 
+                      boost.boost_type === 'reduction' ? '💰 Réduction' : 
+                      boost.boost_type === 'featured' ? '⭐ À la une' : '📢 Personnalisé'}
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Titre</div>
+                <div class="info-value">${escapeHtml(boost.title)}</div>
+            </div>
+            ${boost.description ? `
+            <div class="info-row">
+                <div class="info-label">Description</div>
+                <div class="info-value">${escapeHtml(boost.description)}</div>
+            </div>
+            ` : ''}
+            ${boost.discount_percent > 0 ? `
+            <div class="info-row">
+                <div class="info-label">Réduction</div>
+                <div class="info-value">-${boost.discount_percent}%</div>
+            </div>
+            ` : ''}
+            <div class="info-row">
+                <div class="info-label">Date de fin</div>
+                <div class="info-value">
+                    <input type="date" id="editEndDate" class="edit-date-input" value="${boost.end_date ? new Date(boost.end_date).toISOString().split('T')[0] : ''}">
+                    <button id="updateEndDateBtn" class="small-btn edit-btn">Mettre à jour</button>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Statut</div>
+                <div class="info-value"><span class="info-badge">Actif</span></div>
+            </div>
+            <div class="modal-actions" style="margin-top: 20px;">
+                <button id="deleteBoostBtn" class="modal-btn delete">
+                    <i class="fas fa-trash"></i> Supprimer le boost
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Fermeture
+    modal.querySelector('.info-close').addEventListener('click', () => {
+        modal.remove();
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
+    
+    // Mise à jour de la date de fin
+    const updateBtn = document.getElementById('updateEndDateBtn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async () => {
+            const newEndDate = document.getElementById('editEndDate').value;
+            
+            const { error } = await supabase
+                .from('product_boosts')
+                .update({ 
+                    end_date: newEndDate ? new Date(newEndDate).toISOString() : null,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', boost.id);
+            
+            if (error) {
+                showToast('Erreur: ' + error.message, 'error');
+            } else {
+                showToast('✅ Date de fin mise à jour', 'success');
+                modal.remove();
+                await loadBoosts();
+                renderStats();
+            }
+        });
+    }
+    
+    // Suppression du boost
+    const deleteBtn = document.getElementById('deleteBoostBtn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+            if (confirm('Supprimer ce boost ? Cette action est irréversible.')) {
+                const { error } = await supabase
+                    .from('product_boosts')
+                    .delete()
+                    .eq('id', boost.id);
+                
+                if (error) {
+                    showToast('Erreur: ' + error.message, 'error');
+                } else {
+                    showToast('✅ Boost supprimé', 'success');
+                    modal.remove();
+                    await loadBoosts();
+                    renderStats();
+                }
+            }
+        });
+    }
+}
+
+            // MODAL CREATE BOOST (création)
+            function showCreateBoostModal(product) {
+                const modal = document.createElement('div');
+                modal.className = 'boost-modal';
+                modal.innerHTML = `
+                    <div class="boost-modal-content">
+                        <h3>🚀 Booster le produit</h3>
+                        <div class="product-name">${escapeHtml(product.name)}</div>
+                        
+                        <div class="form-group">
+                            <label>Type de promotion</label>
+                            <select id="boostType">
+                                <option value="promotion">🎉 Promotion</option>
+                                <option value="reduction">💰 Réduction</option>
+                                <option value="featured">⭐ À la une</option>
+                                <option value="custom">📢 Personnalisé</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Titre de l'offre</label>
+                            <input type="text" id="boostTitle" placeholder="Ex: -20% sur toute la collection">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Description (optionnel)</label>
+                            <textarea id="boostDesc" rows="2" placeholder="Description de l'offre..."></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Pourcentage de réduction</label>
+                                <input type="number" id="boostDiscount" placeholder="0" min="0" max="100" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Date de fin</label>
+                                <input type="date" id="boostEndDate">
+                            </div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button class="modal-btn cancel" id="cancelBoostBtn">Annuler</button>
+                            <button class="modal-btn confirm" id="confirmBoostBtn">Valider le boost</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                const defaultDate = new Date();
+                defaultDate.setDate(defaultDate.getDate() + 30);
+                const endDateInput = document.getElementById('boostEndDate');
+                if (endDateInput) endDateInput.value = defaultDate.toISOString().split('T')[0];
+                
+                document.getElementById('cancelBoostBtn').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                document.getElementById('confirmBoostBtn').addEventListener('click', async () => {
+                    const boostType = document.getElementById('boostType').value;
+                    const title = document.getElementById('boostTitle').value.trim();
+                    const description = document.getElementById('boostDesc').value.trim();
+                    const discount = parseInt(document.getElementById('boostDiscount').value) || 0;
+                    const endDate = document.getElementById('boostEndDate').value;
+                    
+                    if (!title) {
+                        showToast('Le titre est requis', 'error');
+                        return;
+                    }
+                    
+                    const { error } = await supabase
+                        .from('product_boosts')
+                        .insert({
+                            product_id: product.id,
+                            boost_type: boostType,
+                            title: title,
+                            description: description || null,
+                            discount_percent: discount,
+                            end_date: endDate ? new Date(endDate).toISOString() : null,
+                            is_active: true
+                        });
+                    
+                    if (error) {
+                        showToast('Erreur: ' + error.message, 'error');
+                    } else {
+                        showToast('✅ Produit boosté avec succès !', 'success');
+                        modal.remove();
+                        await loadBoosts();
+                        renderStats();
+                    }
+                });
+            }
+
             function renderStats() {
                 const totalProducts = getTotalProducts();
                 const totalViews = getTotalViews();
                 const totalTouches = getTotalTouches();
+                const totalCardClicks = getTotalCardClicks();
                 const totalWhatsApps = getTotalWhatsApps();
                 
-                const topByViews = getTopProducts('views', 5);
-                const topByTouches = getTopProducts('touches', 5);
-                const topByWhatsApps = getTopProducts('whatsapps', 5);
-                
-                const zeroViews = getZeroProducts('views', 5);
-                const zeroTouches = getZeroProducts('touches', 5);
-                const zeroWhatsApps = getZeroProducts('whatsapps', 5);
+                const topByViews = getTopProducts('views', 10);
+                const topByTouches = getTopProducts('touches', 10);
+                const topByCards = getTopProducts('cards', 10);
+                const topByWhatsApp = getTopProducts('whatsapps', 10);
+
+                function renderRankingList(products, metricLabel, metricValueGetter) {
+                    return products.map((p, idx) => {
+                        const imageUrl = p.images && p.images[0] ? p.images[0] : null;
+                        const isBoosted = !!productBoosts[p.id];
+                        const boostInfo = productBoosts[p.id];
+                        const value = metricValueGetter(p.id);
+                        
+                        return `
+                            <div class="ranking-item ${isBoosted ? 'boosted' : ''}" data-product-id="${p.id}" data-has-boost="${isBoosted}">
+                                ${imageUrl 
+                                    ? `<img src="${escapeHtml(imageUrl)}" class="product-img" onerror="this.src=''">`
+                                    : `<div class="product-img-placeholder"><i class="fas fa-image"></i></div>`
+                                }
+                                <div class="rank-info">
+                                    <div class="rank-name">
+                                        ${escapeHtml(p.name)}
+                                        ${isBoosted ? `<span class="boost-badge"><i class="fas fa-rocket"></i> Boosté</span>` : ''}
+                                    </div>
+                                    <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
+                                </div>
+                                <div class="rank-value">${value} ${metricLabel}</div>
+                                <button class="boost-btn" data-product-id="${p.id}" data-has-boost="${isBoosted}">
+                                    <i class="fas fa-rocket"></i> ${isBoosted ? 'Voir le boost' : 'Booster'}
+                                </button>
+                            </div>
+                        `;
+                    }).join('');
+                }
 
                 mainContent.innerHTML = `
                     <div class="period-bar">
@@ -468,6 +1060,11 @@
                             <div class="kpi-label">Touchers</div>
                         </div>
                         <div class="kpi-card">
+                            <div class="kpi-icon"><i class="fas fa-mouse-pointer"></i></div>
+                            <div class="kpi-value">${totalCardClicks}</div>
+                            <div class="kpi-label">Clics carte</div>
+                        </div>
+                        <div class="kpi-card">
                             <div class="kpi-icon"><i class="fab fa-whatsapp"></i></div>
                             <div class="kpi-value">${totalWhatsApps}</div>
                             <div class="kpi-label">WhatsApp</div>
@@ -477,108 +1074,61 @@
                     <div class="ranking-card">
                         <h3><i class="fas fa-eye"></i> Top produits (vues)</h3>
                         <div class="ranking-list">
-                            ${topByViews.map((p, idx) => `
-                                <div class="ranking-item">
-                                    <div class="rank-number">${idx + 1}</div>
-                                    <div class="rank-info">
-                                        <div class="rank-name">${escapeHtml(p.name)}</div>
-                                        <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                    </div>
-                                    <div class="rank-value">${getProductViews(p.id)} vues</div>
-                                </div>
-                            `).join('')}
-                            ${topByViews.length === 0 ? '<div class="empty-state">Aucune donnée</div>' : ''}
+                            ${topByViews.length > 0 ? renderRankingList(topByViews, 'vues', getProductViews) : '<div class="empty-state">Aucune donnée</div>'}
                         </div>
                     </div>
 
                     <div class="ranking-card">
                         <h3><i class="fas fa-hand-peace"></i> Top produits (touchers)</h3>
                         <div class="ranking-list">
-                            ${topByTouches.map((p, idx) => `
-                                <div class="ranking-item">
-                                    <div class="rank-number">${idx + 1}</div>
-                                    <div class="rank-info">
-                                        <div class="rank-name">${escapeHtml(p.name)}</div>
-                                        <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                    </div>
-                                    <div class="rank-value">${getProductTouches(p.id)} touches</div>
-                                </div>
-                            `).join('')}
-                            ${topByTouches.length === 0 ? '<div class="empty-state">Aucune donnée</div>' : ''}
+                            ${topByTouches.length > 0 ? renderRankingList(topByTouches, 'touches', getProductTouches) : '<div class="empty-state">Aucune donnée</div>'}
+                        </div>
+                    </div>
+
+                    <div class="ranking-card">
+                        <h3><i class="fas fa-mouse-pointer"></i> Top produits (clics carte)</h3>
+                        <div class="ranking-list">
+                            ${topByCards.length > 0 ? renderRankingList(topByCards, 'clics', getProductCardClicks) : '<div class="empty-state">Aucune donnée</div>'}
                         </div>
                     </div>
 
                     <div class="ranking-card">
                         <h3><i class="fab fa-whatsapp"></i> Top produits (WhatsApp)</h3>
                         <div class="ranking-list">
-                            ${topByWhatsApps.map((p, idx) => `
-                                <div class="ranking-item">
-                                    <div class="rank-number">${idx + 1}</div>
-                                    <div class="rank-info">
-                                        <div class="rank-name">${escapeHtml(p.name)}</div>
-                                        <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                    </div>
-                                    <div class="rank-value">${getProductWhatsApps(p.id)} contacts</div>
-                                </div>
-                            `).join('')}
-                            ${topByWhatsApps.length === 0 ? '<div class="empty-state">Aucune donnée</div>' : ''}
+                            ${topByWhatsApp.length > 0 ? renderRankingList(topByWhatsApp, 'contacts', getProductWhatsApps) : '<div class="empty-state">Aucune donnée</div>'}
                         </div>
                     </div>
-
-                    <div class="ranking-card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Produits sans vue</h3>
-                        ${zeroViews.length > 0 ? `
-                            <div class="ranking-list">
-                                ${zeroViews.map(p => `
-                                    <div class="ranking-item">
-                                        <div class="rank-number"><i class="fas fa-eye-slash"></i></div>
-                                        <div class="rank-info">
-                                            <div class="rank-name">${escapeHtml(p.name)}</div>
-                                            <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                        </div>
-                                        <div class="rank-value">0 vue</div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : '<div class="empty-state">Tous vos produits ont des vues !</div>'}
-                    </div>
-
-                    <div class="ranking-card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Produits sans toucher</h3>
-                        ${zeroTouches.length > 0 ? `
-                            <div class="ranking-list">
-                                ${zeroTouches.map(p => `
-                                    <div class="ranking-item">
-                                        <div class="rank-number"><i class="fas fa-hand-peace"></i></div>
-                                        <div class="rank-info">
-                                            <div class="rank-name">${escapeHtml(p.name)}</div>
-                                            <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                        </div>
-                                        <div class="rank-value">0 touché</div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : '<div class="empty-state">Tous vos produits ont été touchés !</div>'}
-                    </div>
-
-                    <div class="ranking-card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Produits sans WhatsApp</h3>
-                        ${zeroWhatsApps.length > 0 ? `
-                            <div class="ranking-list">
-                                ${zeroWhatsApps.map(p => `
-                                    <div class="ranking-item">
-                                        <div class="rank-number"><i class="fab fa-whatsapp"></i></div>
-                                        <div class="rank-info">
-                                            <div class="rank-name">${escapeHtml(p.name)}</div>
-                                            <div class="rank-stats">${formatPrice(p.price)} FCFA</div>
-                                        </div>
-                                        <div class="rank-value">0 contact</div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : '<div class="empty-state">Tous vos produits ont été contactés !</div>'}
-                    </div>
                 `;
+
+                // Événement sur les boutons boost
+                document.querySelectorAll('.boost-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        const productId = btn.getAttribute('data-product-id');
+                        const hasBoost = btn.getAttribute('data-has-boost') === 'true';
+                        const product = allProducts.find(p => p.id === productId);
+                        
+                        if (hasBoost) {
+                            const boost = productBoosts[productId];
+                            if (boost) showBoostInfoModal(boost);
+                        } else {
+                            if (product) showCreateBoostModal(product);
+                        }
+                    });
+                });
+
+                // Événement sur la ligne produit (clic pour voir les détails du boost)
+                document.querySelectorAll('.ranking-item').forEach(item => {
+                    const hasBoost = item.classList.contains('boosted');
+                    if (!hasBoost) return;
+                    
+                    item.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('boost-btn')) return;
+                        const productId = item.getAttribute('data-product-id');
+                        const boost = productBoosts[productId];
+                        if (boost) showBoostInfoModal(boost);
+                    });
+                });
 
                 document.querySelectorAll('.period-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
